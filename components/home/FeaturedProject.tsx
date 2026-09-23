@@ -39,7 +39,7 @@ export function FeaturedProject() {
           </div>
         </div>
 
-        <div className="featured__media reveal reveal--image">
+        <div className="featured__media reveal reveal--image reveal--side-r">
           <div className="featured__frame">
             <Image
               src={featured.image}
@@ -55,7 +55,7 @@ export function FeaturedProject() {
       </div>
 
       <div className="container">
-        <dl className="figures">
+        <dl className="figures reveal reveal--lines">
           {figures.map((f, i) => (
             <div key={f.label} className="figures__item reveal" style={{ '--d': `${i * 80}ms` } as React.CSSProperties}>
               <dt>{f.label}</dt>

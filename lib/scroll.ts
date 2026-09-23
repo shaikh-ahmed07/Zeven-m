@@ -18,10 +18,14 @@ function flush() {
   queued = false;
   listeners.forEach((fn) => fn());
 }
+// Background tabs pause requestAnimationFrame; fall back to a timer so state stays correct.
+const nextFrame = (cb: () => void) =>
+  document.hidden ? window.setTimeout(cb, 16) : window.requestAnimationFrame(cb);
+
 export function requestScrollFrame() {
   if (queued) return;
   queued = true;
-  requestAnimationFrame(flush);
+  nextFrame(flush);
 }
 
 /** Runs `fn` at most once per animation frame while the page scrolls or resizes. */
@@ -68,6 +72,7 @@ function unlock() {
   html.style.scrollBehavior = 'auto';
   window.scrollTo(0, savedY);
   html.style.scrollBehavior = prev;
+  requestScrollFrame();
 }
 
 /** Locks page scrolling while `active` is true. Safe to use from several components at once. */
@@ -80,12 +85,11 @@ export function useScrollLock(active: boolean) {
 }
 
 /** Calls `cb` once every scroll lock has been released (e.g. after a menu closes). */
-export function whenUnlocked(cb: () => void, tries = 30) {
-  if (!isScrollLocked() || tries <= 0) {
-    requestAnimationFrame(cb);
-    return;
-  }
-  requestAnimationFrame(() => whenUnlocked(cb, tries - 1));
+export function whenUnlocked(cb: () => void, tries = 40) {
+  window.setTimeout(() => {
+    if (!isScrollLocked() || tries <= 0) cb();
+    else whenUnlocked(cb, tries - 1);
+  }, 16);
 }
 
 /* ---- Section scrolling ------------------------------------------------- */
@@ -112,7 +116,8 @@ export function scrollToId(id: string, smooth = true) {
     // Skip most of the section's top padding, but never cut into the section above.
     top = Math.max(rectTop - offset, rectTop + pad - offset - breathing);
   }
-  window.scrollTo({ top: Math.max(0, top), behavior: smooth && !prefersReducedMotion() ? 'smooth' : 'auto' });
+  window.scrollTo({ top: Math.max(0, top), behavior: smooth && !prefersReducedMotion() ? 'smooth' : 'instant' });
+  requestScrollFrame();
   el.classList.add('is-target');
   window.setTimeout(() => el.classList.remove('is-target'), 1800);
   return true;

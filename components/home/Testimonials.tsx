@@ -50,7 +50,7 @@ export function Testimonials() {
           className="testimonials__stage reveal reveal--x"
           aria-roledescription="carousel"
           aria-live="polite"
-          onPointerDown={(e) => (startX.current = e.clientX)}
+          onPointerDown={(e) => (startX.current = e.pointerType === 'mouse' ? null : e.clientX)}
           onPointerUp={(e) => {
             if (startX.current === null) return;
             const dx = e.clientX - startX.current;

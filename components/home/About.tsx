@@ -7,7 +7,7 @@ export function About() {
     <section id="about" className="about section" aria-labelledby="about-title">
       <div className="container about__grid">
         <div className="about__media">
-          <div className="about__main reveal reveal--image">
+          <div className="about__main reveal reveal--image reveal--side">
             <Image
               src={images.about}
               alt="Modern residence with timber and glass facade at dusk (placeholder image)"

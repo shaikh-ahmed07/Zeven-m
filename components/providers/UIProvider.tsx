@@ -128,22 +128,36 @@ function useScrollEffects(pathname: string) {
   useEffect(() => {
     const reduce = prefersReducedMotion();
 
+    // Elements that start fully masked (clip-path) have no visible area, so the
+    // observer never reports them; watch their parent instead.
+    const MASKED = '.display, .featured__title, .craft__title, .cta__title, .reveal--side, .reveal--side-r';
+    const watched = new Map<Element, Element[]>();
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            io.unobserve(entry.target);
-          }
+          if (!entry.isIntersecting) return;
+          (watched.get(entry.target) ?? []).forEach((el) => el.classList.add('is-visible'));
+          watched.delete(entry.target);
+          io.unobserve(entry.target);
         });
       },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.05 },
     );
+    const observe = (el: Element) => {
+      const target = el.matches(MASKED) && el.parentElement ? el.parentElement : el;
+      const list = watched.get(target);
+      if (list) {
+        if (!list.includes(el)) list.push(el);
+        return;
+      }
+      watched.set(target, [el]);
+      io.observe(target);
+    };
 
     let layers: HTMLElement[] = [];
     let timelines: HTMLElement[] = [];
     const collect = () => {
-      document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => io.observe(el));
+      document.querySelectorAll('.reveal:not(.is-visible)').forEach(observe);
       layers = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
       timelines = Array.from(document.querySelectorAll<HTMLElement>('[data-timeline]'));
     };

@@ -39,7 +39,7 @@ function respond(input: string): { text: string; actions?: Action[]; capture?: C
       text: `Great choice. ${cfg} homes are showcased across our residential developments, including Zeven-M Residences and Zeven-M Heights. Would you like our team to share details and availability?`,
       actions: [
         { label: 'View Zeven-M Residences', href: '/projects/zeven-m-residences' },
-        { label: 'Book a Site Visit', send: 'Can I schedule a site visit?' },
+        { label: 'Book Site Visit', send: 'Can I schedule a site visit?' },
       ],
     };
   }
@@ -48,7 +48,7 @@ function respond(input: string): { text: string; actions?: Action[]; capture?: C
       text: 'Our villa communities feature signature 4 BHK homes with private gardens and resort-style amenities. Would you like to explore Zeven-M Villas?',
       actions: [
         { label: 'View Zeven-M Villas', href: '/projects/zeven-m-villas' },
-        { label: 'Book a Site Visit', send: 'Can I schedule a site visit?' },
+        { label: 'Book Site Visit', send: 'Can I schedule a site visit?' },
       ],
     };
   if (has('flat', 'apartment', 'buy', 'home', 'house', 'residence'))

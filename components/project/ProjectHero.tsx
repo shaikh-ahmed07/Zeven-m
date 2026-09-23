@@ -4,24 +4,18 @@ import type { Project } from '@/lib/data';
 import { typeLabels } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 import { EnquireButton } from '@/components/ui/EnquireButton';
+import { SubNav } from './SubNav';
 
-const sections = [
-  ['Overview', '#overview'],
-  ['Residences', '#residences'],
-  ['Amenities', '#amenities'],
-  ['Gallery', '#gallery'],
-  ['Location', '#location'],
-  ['Enquire', '#enquire'],
-];
 
 export function ProjectHero({ project }: { project: Project }) {
   return (
     <>
       <section className="phero" aria-labelledby="project-title">
-        <div className="phero__media">
+        <div className="phero__media hero__drift">
           <Image src={project.heroImage} alt={`${project.name} (placeholder image)`} fill preload sizes="100vw" className="hero__img" />
         </div>
         <div className="hero__shade" aria-hidden="true" />
+        <div className="hero__light" aria-hidden="true" />
         <div className="container phero__content">
           <nav className="breadcrumb" aria-label="Breadcrumb">
             <Link href="/">Home</Link>
@@ -65,18 +59,7 @@ export function ProjectHero({ project }: { project: Project }) {
         </dl>
       </div>
 
-      <nav className="subnav" aria-label="Project sections">
-        <div className="container subnav__inner">
-          <span className="subnav__name">{project.name}</span>
-          <ul>
-            {sections.map(([label, href]) => (
-              <li key={href}>
-                <a href={href}>{label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
+      <SubNav name={project.name} />
     </>
   );
 }

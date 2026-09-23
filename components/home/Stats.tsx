@@ -5,7 +5,7 @@ export function Stats() {
   return (
     <section className="stats" aria-label="Zeven-M at a glance">
       <div className="container">
-        <ul className="stats__list">
+        <ul className="stats__list reveal reveal--lines">
           {stats.map((s, i) => (
             <li key={s.label} className="stats__item reveal" style={{ '--d': `${i * 90}ms` } as React.CSSProperties}>
               <span className="stats__value">

@@ -39,11 +39,16 @@ export function Navbar() {
         if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
 
         if (!isHome) return setActive(pathname.startsWith('/projects/') ? 'projects' : '');
+        // The tracked section whose top is closest above 40% of the viewport wins.
         const line = window.innerHeight * 0.4;
         let current = 'home';
+        let best = -Infinity;
         for (const id of sectionIds) {
-          const el = document.getElementById(id);
-          if (el && el.getBoundingClientRect().top <= line) current = id;
+          const top = document.getElementById(id)?.getBoundingClientRect().top;
+          if (top !== undefined && top <= line && top > best) {
+            best = top;
+            current = id;
+          }
         }
         if (y >= max - 4) current = 'contact';
         setActive(current);
@@ -52,6 +57,11 @@ export function Navbar() {
   );
 
   useEffect(() => setMenuOpen(false), [pathname]);
+
+  // Lets other fixed UI (the mobile action bar) step aside while the menu is open.
+  useEffect(() => {
+    document.documentElement.classList.toggle('menu-open', menuOpen);
+  }, [menuOpen]);
 
   useEffect(() => {
     const close = () => setMenuOpen(false);

@@ -55,3 +55,18 @@ components/ui/            Icon, Button, Modal, Counter, SectionHeading
 components/providers/     UIProvider (enquiry drawer, chat state, scroll reveals, parallax)
 lib/data.ts               all content
 ```
+
+## Navigation & interaction notes
+
+- **In-page links** (`/#projects`, `#gallery`, footer links…) are handled centrally in
+  `components/providers/UIProvider.tsx`: open menus/sheets close first, then the page scrolls so
+  the section content lands just below the sticky navbar (and the project sub-nav). Section IDs:
+  `home`, `about`, `services`, `projects`, `why-zeven`, `process`, `contact`, plus
+  `service-<slug>` for each service card.
+- **Scroll-driven effects** (navbar state, progress line, active link, parallax, process timeline)
+  share one throttled loop in `lib/scroll.ts`. `useScrollLock()` there is the only way the site
+  locks page scrolling (menu, chat on phones, enquiry panel, sheets) — it is reference-counted
+  and iOS-safe.
+- **Brand intro** plays once per browser session (see `INIT_SCRIPT` in `app/layout.tsx`).
+- **Reduced motion**: all reveal, parallax, intro and drift animations are disabled and scrolling
+  becomes instant when the visitor's OS requests reduced motion.

@@ -21,7 +21,7 @@ export function ProjectOverview({ project }: { project: Project }) {
           ))}
           <p className="placeholder-note">Project details are placeholder content. RERA and approval details to be added.</p>
         </div>
-        <div className="poverview__media reveal reveal--image">
+        <div className="poverview__media reveal reveal--image reveal--side-r">
           <Image src={project.overviewImage} alt={`${project.name} interior (placeholder image)`} fill sizes="(max-width: 900px) 100vw, 45vw" data-parallax="0.05" className="parallax-img" />
         </div>
       </div>
