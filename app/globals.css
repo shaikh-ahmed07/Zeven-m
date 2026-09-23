@@ -1044,8 +1044,7 @@ html.js:not(.intro-seen) .intro {
 }
 .phero .hero__actions > *,
 .page-hero .hero__actions > * {
-  animation-duration: 0.5s;
-  animation-delay: calc(var(--intro) + 0.15s);
+  animation: glide-in 0.45s var(--ease) var(--intro) both;
 }
 .hero__sub {
   margin-top: 28px;
@@ -2962,7 +2961,6 @@ html:not(.js) .timeline__step > * {
   position: relative;
   padding-top: calc(var(--nav-h) + 40px);
   padding-bottom: clamp(64px, 10vh, 120px);
-  animation: fade-up 0.55s var(--ease) calc(var(--intro) + 0.05s) both;
 }
 .breadcrumb {
   display: flex;
@@ -3692,14 +3690,11 @@ html:not(.js) .timeline__step > * {
 }
 
 
-/* ---------- Page transition & inner-page banner ---------------------- */
-.page-transition {
-  animation: page-in 0.25s ease-out both;
-}
-/* Opacity only: moving the page would throw off anchor landing positions. */
-@keyframes page-in {
+/* ---------- Inner-page banner ----------------------------------------
+   Inner pages appear instantly; only a subtle glide on the banner text remains. */
+@keyframes glide-in {
   from {
-    opacity: 0;
+    transform: translateY(14px);
   }
 }
 .page-hero {
@@ -3725,10 +3720,23 @@ html:not(.js) .timeline__step > * {
   padding-top: calc(var(--nav-h) + 40px);
   padding-bottom: clamp(56px, 10vh, 112px);
 }
-/* Inner pages: quick, readable almost immediately (the homepage keeps the long cinematic entrance). */
+/* Inner pages: text is readable immediately (the homepage keeps its cinematic entrance). */
 .page-hero__content .breadcrumb,
-.page-hero .hero__eyebrow {
-  animation: fade-up 0.5s var(--ease) var(--intro) both;
+.page-hero .hero__eyebrow,
+.page-hero .page-hero__title,
+.page-hero .page-hero__lead,
+.phero .phero__content {
+  animation: glide-in 0.45s var(--ease) var(--intro) both;
+}
+/* Banner image: gentle settle without fading in from dark. */
+.page-hero .hero__img,
+.phero .hero__img {
+  animation: banner-zoom 1.4s var(--ease) var(--intro) both;
+}
+@keyframes banner-zoom {
+  from {
+    transform: scale(1.06);
+  }
 }
 .page-hero__title {
   max-width: 14em;
@@ -3737,7 +3745,6 @@ html:not(.js) .timeline__step > * {
   font-size: clamp(3rem, 7.6vw, 7.2rem);
   line-height: 0.95;
   letter-spacing: -0.02em;
-  animation: fade-up 0.55s var(--ease) calc(var(--intro) + 0.05s) both;
 }
 .page-hero__title em {
   font-style: italic;
@@ -3749,7 +3756,6 @@ html:not(.js) .timeline__step > * {
   margin-top: 22px;
   font-size: clamp(1rem, 1.3vw, 1.12rem);
   color: rgba(245, 241, 232, 0.82);
-  animation: fade-up 0.55s var(--ease) calc(var(--intro) + 0.12s) both;
 }
 
 /* ---------- Services page -------------------------------------------- */
@@ -4943,8 +4949,7 @@ html:not(.js) .timeline__step > * {
   .hero__light {
     display: none !important;
   }
-  .hero__drift,
-  .page-transition {
+  .hero__drift {
     animation: none !important;
   }
   .parallax-img {

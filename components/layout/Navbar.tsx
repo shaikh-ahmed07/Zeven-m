@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { isActivePath, navLinks, site, whatsappLink } from '@/lib/data';
 import { NAVIGATE_EVENT, useUI } from '@/components/providers/UIProvider';
 import { Icon } from '@/components/ui/Icon';
@@ -19,6 +19,12 @@ export function Navbar() {
   const progressRef = useRef<HTMLSpanElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+
+  // Preload every main page up front (mobile-menu links are hidden, so they are not auto-prefetched).
+  const router = useRouter();
+  useEffect(() => {
+    navLinks.forEach((l) => router.prefetch(l.href));
+  }, [router]);
 
   // Transparent over a full-bleed hero image; solid on pages without one (legal, 404).
   const [hasHero, setHasHero] = useState(() => HERO_ROUTES.test(pathname));
