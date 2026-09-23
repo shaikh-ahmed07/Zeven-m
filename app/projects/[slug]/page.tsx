@@ -6,6 +6,7 @@ import { ProjectOverview } from '@/components/project/ProjectOverview';
 import { Residences } from '@/components/project/Residences';
 import { Amenities } from '@/components/project/Amenities';
 import { Gallery } from '@/components/project/Gallery';
+import { Specifications } from '@/components/project/Specifications';
 import { LocationSection } from '@/components/project/LocationSection';
 import { ProjectEnquiry } from '@/components/project/ProjectEnquiry';
 import { MoreProjects } from '@/components/project/MoreProjects';
@@ -38,6 +39,7 @@ export default async function ProjectPage({ params }: Params) {
       <Residences project={project} />
       <Amenities project={project} />
       <Gallery project={project} />
+      <Specifications project={project} />
       <LocationSection project={project} />
       <ProjectEnquiry project={project} />
       <MoreProjects current={project.slug} />

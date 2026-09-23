@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import type { Project } from '@/lib/data';
+import { projectAlt, type Project } from '@/lib/data';
+import { DownloadButton } from '@/components/ui/Button';
 
 export function ProjectOverview({ project }: { project: Project }) {
   const [first, ...rest] = project.overview;
@@ -19,10 +20,19 @@ export function ProjectOverview({ project }: { project: Project }) {
               {para}
             </p>
           ))}
-          <p className="placeholder-note">Project details are placeholder content. RERA and approval details to be added.</p>
+          {project.developer && <p className="poverview__developer reveal">{project.developer}</p>}
+          {project.brochure && (
+            <div className="poverview__actions reveal">
+              <DownloadButton href={project.brochure.href}>{project.brochure.label}</DownloadButton>
+              <span className="poverview__size">{project.brochure.size}</span>
+            </div>
+          )}
+          {project.placeholder !== false && (
+            <p className="placeholder-note">Project details are placeholder content. RERA and approval details to be added.</p>
+          )}
         </div>
         <div className="poverview__media reveal reveal--image reveal--side-r">
-          <Image src={project.overviewImage} alt={`${project.name} interior (placeholder image)`} fill sizes="(max-width: 900px) 100vw, 45vw" data-parallax="0.05" className="parallax-img" />
+          <Image src={project.overviewImage} alt={projectAlt(project, 'overview')} fill sizes="(max-width: 900px) 100vw, 45vw" data-parallax="0.05" className="parallax-img" />
         </div>
       </div>
     </section>

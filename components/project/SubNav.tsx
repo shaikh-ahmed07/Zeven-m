@@ -3,17 +3,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { onScrollFrame } from '@/lib/scroll';
 
-const sections = [
+const allSections = [
   ['Overview', 'overview'],
   ['Residences', 'residences'],
   ['Amenities', 'amenities'],
   ['Gallery', 'gallery'],
+  ['Specs', 'specifications'],
   ['Location', 'location'],
   ['Enquire', 'enquire'],
 ] as const;
 
 /** Sticky in-page navigation for project details, with the current section highlighted. */
-export function SubNav({ name }: { name: string }) {
+export function SubNav({ name, hasSpecs = false }: { name: string; hasSpecs?: boolean }) {
+  const sections = allSections.filter(([, id]) => id !== 'specifications' || hasSpecs);
   const [active, setActive] = useState<string>('');
   const listRef = useRef<HTMLUListElement>(null);
 

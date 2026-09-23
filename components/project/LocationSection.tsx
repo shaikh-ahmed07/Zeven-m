@@ -21,14 +21,27 @@ function MapPlaceholder({ name }: { name: string }) {
 }
 
 export function LocationSection({ project }: { project: Project }) {
+  const query = project.mapQuery ?? 'Hyderabad, Telangana';
+  const nearby = project.nearby ?? nearbyDefault;
   return (
     <section id="location" className="location section" aria-labelledby="location-title">
       <div className="container location__grid">
         <div className="location__map reveal reveal--image">
-          <MapPlaceholder name={project.name} />
+          {project.mapQuery ? (
+            <iframe
+              className="location__embed"
+              title={`Map of ${project.name}, ${project.location}`}
+              // Direct embed URL (the short "?output=embed" form redirects through a non-frameable response).
+              src={`https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s${encodeURIComponent(query)}!6i14`}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          ) : (
+            <MapPlaceholder name={project.name} />
+          )}
           <a
             className="location__open"
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Hyderabad, Telangana')}`}
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -43,8 +56,13 @@ export function LocationSection({ project }: { project: Project }) {
           <p className="reveal" style={{ '--d': '140ms' } as React.CSSProperties}>
             <Icon name="pin" /> {project.location}
           </p>
+          {project.locationText && (
+            <p className="location__text reveal" style={{ '--d': '150ms' } as React.CSSProperties}>
+              {project.locationText}
+            </p>
+          )}
           <ul className="nearby">
-            {nearbyDefault.map((n, i) => (
+            {nearby.map((n, i) => (
               <li key={n.place} className="reveal" style={{ '--d': `${160 + i * 50}ms` } as React.CSSProperties}>
                 <span>{n.place}</span>
                 <span className="nearby__line" aria-hidden="true" />
@@ -52,7 +70,8 @@ export function LocationSection({ project }: { project: Project }) {
               </li>
             ))}
           </ul>
-          <p className="placeholder-note">Map and travel times are placeholders.</p>
+          {project.nearbyNote && <p className="location__note reveal">{project.nearbyNote}</p>}
+          {project.placeholder !== false && <p className="placeholder-note">Map and travel times are placeholders.</p>}
         </div>
       </div>
     </section>

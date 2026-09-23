@@ -17,6 +17,14 @@ npm run build && npm start
 | Logo files | `public/logo/` |
 | SEO title / description | `app/layout.tsx`, per-project in `app/projects/[slug]/page.tsx` |
 
+**Zeven-M Ace Apartments** (`/projects/zeven-m-ace-apartments`) is the real, featured project —
+its details come from the brochure in `public/brochures/` and its renders/floor plan from
+`public/images/projects/ace/`. Real projects set `placeholder: false` and can also define
+`highlights`, `brochure`, `floorPlan`, `specifications`, `nearby`, `mapQuery` and `disclaimer`
+(see the `Project` type in `lib/data.ts`); the page adds the brochure buttons, specifications
+section and a live Google Map automatically. Contact: +91 85001 03000 · zevenmgroup@gmail.com
+(also used for every WhatsApp link).
+
 Everything marked `PLACEHOLDER` in `lib/data.ts` is demo content: figures, prices, areas,
 RERA details, possession dates, travel times, testimonials and phone numbers. Replace these
 before going live. Adding a project to `projects` automatically creates its page at

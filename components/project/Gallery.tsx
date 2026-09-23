@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { Project } from '@/lib/data';
+import { projectAlt, type Project } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 import { Modal } from '@/components/ui/Modal';
 
@@ -38,7 +38,7 @@ export function Gallery({ project }: { project: Project }) {
           {project.gallery.map(([src, label], i) => (
             <li key={`${src}-${i}`} className={`masonry__item masonry__item--${i % 3} reveal reveal--image`}>
               <button type="button" onClick={() => setActive(i)} aria-label={`Open image ${i + 1} of ${total}: ${label}`}>
-                <Image src={src} alt={`${project.name} — ${label} (placeholder image)`} fill sizes="(max-width: 760px) 86vw, 33vw" />
+                <Image src={src} alt={projectAlt(project, label)} fill sizes="(max-width: 760px) 86vw, 33vw" />
                 <span className="masonry__label">
                   <span>
                     <em>{pad(i + 1)}</em> {label}
@@ -49,7 +49,9 @@ export function Gallery({ project }: { project: Project }) {
             </li>
           ))}
         </ul>
-        <p className="placeholder-note">Images are placeholders and do not depict the actual project.</p>
+        {project.placeholder !== false && (
+          <p className="placeholder-note">Images are placeholders and do not depict the actual project.</p>
+        )}
       </div>
 
       <Modal open={active !== null} onClose={() => setActive(null)} label="Image gallery" className="modal--lightbox">
@@ -57,7 +59,7 @@ export function Gallery({ project }: { project: Project }) {
           <Lightbox
             key={active}
             src={project.gallery[active][0]}
-            alt={`${project.name} — ${project.gallery[active][1]} (placeholder image)`}
+            alt={projectAlt(project, project.gallery[active][1])}
             label={project.gallery[active][1]}
             counter={`${pad(active + 1)} / ${pad(total)}`}
             onStep={step}

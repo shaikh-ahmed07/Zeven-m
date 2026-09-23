@@ -19,10 +19,10 @@ export const site = {
   tagline: 'From Vision to Creation — Excellence in Design, Development & Construction',
   supporting: 'Design. Develop. Construct.',
   office: 'Hyderabad, Telangana, India',
-  phoneDisplay: '+91 XXXXX XXXXX', // PLACEHOLDER
-  phoneHref: 'tel:+910000000000', // PLACEHOLDER
-  email: 'info@zevenm.com',
-  whatsapp: '910000000000', // PLACEHOLDER — country code + number, digits only
+  phoneDisplay: '+91 85001 03000',
+  phoneHref: 'tel:+918500103000',
+  email: 'zevenmgroup@gmail.com',
+  whatsapp: '918500103000', // country code + number, digits only (used for every WhatsApp link)
   whatsappText: 'Hello Zeven-M, I would like to know more about your projects.',
 };
 
@@ -138,6 +138,14 @@ export const amenityCatalogue = {
   track: { label: 'Walking Track', icon: 'track' },
   lounge: { label: 'Business Lounge', icon: 'clubhouse' },
   food: { label: 'Food Court', icon: 'hall' },
+  jogging: { label: 'Jogging / Running Track', icon: 'track' },
+  qurbani: { label: 'Qurbani & Ghusl Area', icon: 'drop' },
+  lifts: { label: '2 Lifts (6–8 Passenger)', icon: 'lift' },
+  cctv: { label: 'CCTV Surveillance', icon: 'camera' },
+  power: { label: 'DG Power Backup', icon: 'bolt' },
+  water: { label: 'Municipal & Borewell Water', icon: 'drop' },
+  greenery: { label: 'Landscaped Greenery', icon: 'leaf' },
+  stilt: { label: 'Stilt Parking', icon: 'parking' },
 } satisfies Record<string, { label: string; icon: IconName }>;
 export type AmenityKey = keyof typeof amenityCatalogue;
 
@@ -175,6 +183,20 @@ export type Project = {
   residences: { type: string; area: string; price: string }[];
   amenities: AmenityKey[];
   gallery: [string, string][];
+  /** Demo projects show "placeholder" notes; real projects set this to false. */
+  placeholder?: boolean;
+  /** Headline figures for the homepage feature. */
+  highlights?: { value: string; unit?: string; label: string }[];
+  brochure?: { href: string; label: string; size: string };
+  /** Real floor-plan image (otherwise an illustrative plan is drawn). */
+  floorPlan?: { src: string; width: number; height: number };
+  developer?: string;
+  locationText?: string;
+  mapQuery?: string;
+  nearby?: { place: string; time: string }[];
+  nearbyNote?: string;
+  specifications?: { group: string; items: [string, string][] }[];
+  disclaimer?: string;
 };
 
 export const typeLabels: Record<ProjectType, string> = {
@@ -184,6 +206,96 @@ export const typeLabels: Record<ProjectType, string> = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: 'zeven-m-ace-apartments',
+    name: 'Zeven-M Ace Apartments',
+    type: 'residential',
+    status: 'Ongoing',
+    placeholder: false,
+    category: 'Luxury Residences',
+    config: '3 BHK · 1,750 sq. ft.',
+    location: 'Sun City, Hyderabad',
+    summary:
+      'A select collection of extraordinary residences blending modern design, premium amenities and a prime location — for discerning homebuyers and investors.',
+    image: '/images/projects/ace/ace-exterior-night.jpg',
+    heroImage: '/images/projects/ace/ace-exterior-night.jpg',
+    specs: [
+      ['Address', 'Sun City, Hyderabad'], ['Storeys', '5'], ['Luxurious Homes', '20'],
+      ['Configuration', '3 BHK'], ['Flat Size', '1,750 sq. ft.'], ['Approval', 'GHMC Approved'],
+    ],
+    highlights: [
+      { value: '5', label: 'Storeys' },
+      { value: '20', label: 'Luxurious Homes' },
+      { value: '3', unit: 'BHK', label: 'Apartments' },
+      { value: '1,750', unit: 'sq. ft.', label: 'Every Home' },
+      { value: '2', unit: 'Lifts', label: '6–8 Passenger' },
+    ],
+    overview: [
+      'Introducing Zeven-M Ace Apartments — your “exclusive” address at Sun City, Hyderabad. A select collection of 20 extraordinary 3 BHK residences across five storeys, blending modern design, premium amenities and a prime location.',
+      'Guided by a vision to create a lasting legacy, every residence is masterfully crafted with superior ventilation, abundant natural light and a sense of enduring openness. Designed in strict adherence to all statutory norms, each space reflects an uncompromising attention to detail — from impeccably planned layouts to hand-selected premium fittings and refined finishes.',
+    ],
+    overviewImage: '/images/projects/ace/ace-exterior-day.jpg',
+    residences: [{ type: '3 BHK', area: '1,750 sq. ft. (all flats)', price: 'Price on request' }],
+    floorPlan: { src: '/images/projects/ace/ace-typical-floor-plan.jpg', width: 1131, height: 1599 },
+    amenities: ['play', 'jogging', 'qurbani', 'lifts', 'cctv', 'power', 'water', 'greenery', 'stilt'],
+    gallery: [
+      ['/images/projects/ace/ace-exterior-night.jpg', 'Exterior at Dusk'],
+      ['/images/projects/ace/ace-front-elevation.jpg', 'Front Elevation'],
+      ['/images/projects/ace/ace-exterior-day.jpg', 'Exterior'],
+      ['/images/projects/ace/ace-typical-floor-plan.jpg', 'Typical Floor Plan'],
+    ],
+    brochure: { href: '/brochures/zeven-m-ace-apartments-brochure.pdf', label: 'Download Brochure', size: 'PDF · 8.6 MB' },
+    developer: 'Developed by Revelateurs Builders & Developers with Zeven-M Projects & Realty',
+    locationText:
+      'Located in Sun City’s elite enclave, with prime Outer Ring Road connectivity to Gachibowli, the Financial District, Narsingi and Rajendra Nagar — plus easy access to Rajiv Gandhi International Airport. Surrounded by retail, cafés and top schools.',
+    mapQuery: 'Sun City, Bandlaguda Jagir, Hyderabad',
+    nearby: [
+      { place: 'Masjid Khadijatul Kubra', time: '2 min' },
+      { place: 'Grocery & Local Shops', time: '5 min' },
+      { place: 'Schools', time: '5 min' },
+      { place: 'Vantage Line Mall', time: '10 min' },
+      { place: 'Outer Ring Road', time: '10 min' },
+      { place: 'Mantra Mall', time: '15 min' },
+      { place: 'Gachibowli', time: '20 min' },
+      { place: 'Rajiv Gandhi Intl. Airport', time: '25 min' },
+    ],
+    nearbyNote: 'Hospitals nearby: Care Hospital, AIG Hospital, Premiere Hospital, Shadan Medical College & Hospital.',
+    specifications: [
+      { group: 'Structure', items: [
+        ['Foundation & Structure', 'R.C.C. framework designed for earthquake-resistant zone 2. Structural steel of Shree / Radha / Dhanalaxmi make. Ready-mix cement concrete (M20 grade).'],
+        ['Walls', 'Red brick walls with smooth finish for internal and sponge finish for external walls.'],
+      ] },
+      { group: 'Flooring', items: [
+        ['Living & Drawing Room', 'Italian-finish vitrified tiles, big size.'],
+        ['Bedrooms', 'Vitrified tiles.'],
+        ['Bathrooms & Utility', 'Anti-skid ceramic tiles of reputed make, with wall dadoing.'],
+        ['Common Areas & Staircase', 'Granite flooring.'],
+      ] },
+      { group: 'Finishes', items: [
+        ['Painting', 'External: two coats of exterior emulsion (Asian Paints). Internal: smooth putty finish with two coats of premium emulsion over a coat of primer.'],
+        ['False Ceiling', 'Designer false ceiling in living, drawing and bedrooms with provision for lighting; false ceiling in entrance lounge and common areas.'],
+        ['Windows', 'UPVC glazed shutters with mosquito mesh and MS safety grill.'],
+        ['Doors', 'Main door: melamine-polished teak wood frame and shutter. Internal: teak wood frame with laminated flush doors. SS hardware with locks by Yale, Dorset or Godrej.'],
+      ] },
+      { group: 'Kitchen & Bath', items: [
+        ['Kitchen', 'Provisions for plumbing and electrical appliances.'],
+        ['Sanitary', 'Ceramic ware and CP fittings of Cera / Jaquar in all bathrooms and kitchen. Concealed PVC & CPVC pipelines (Ashirvad, Astral, Prince or Supreme).'],
+      ] },
+      { group: 'Services', items: [
+        ['Electrical', 'Concealed copper wiring with adequate points for TV, exhaust fans, geyser, AC etc. MCB in all apartments; inverter wiring provided. Wiring: Polycab / Finolex; switches: Legrand / Havells / Anchor or equivalent.'],
+        ['Power Backup', 'Diesel generator backup for lifts and common areas.'],
+        ['Water Supply', 'Municipal water, plus borewell water supplied through overhead tanks.'],
+        ['Lifts', '2 lifts of 6–8 passenger capacity with standby generator.'],
+        ['Security', 'CCTV cameras at the main entrance, parking and corridors of all floors.'],
+      ] },
+      { group: 'Outdoors', items: [
+        ['Landscaping', 'Ample greenery and landscaping on all sides along the boundary, and tot-lots.'],
+        ['Amenities', 'Kids’ play area, running track, Qurbani (slaughter) & Ghusl (washing) area and other amenities.'],
+      ] },
+    ],
+    disclaimer:
+      'GHMC approved · OC post completion. This presentation is conceptual in nature and not by any means a legal offering. The promoters reserve the right to change, delete or add any specifications or plans mentioned herein.',
+  },
   {
     slug: 'zeven-m-residences',
     name: 'Zeven-M Residences',
@@ -395,6 +507,11 @@ export const projects: Project[] = [
   },
 ];
 
-export const featured = projects[0];
+/** The development featured on the homepage. */
+export const featured = projects.find((p) => p.slug === 'zeven-m-ace-apartments')!;
 
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
+
+/** Alt text that flags stock photography on demo projects only. */
+export const projectAlt = (p: Project, label: string) =>
+  `${p.name} — ${label}${p.placeholder === false ? '' : ' (placeholder image)'}`;

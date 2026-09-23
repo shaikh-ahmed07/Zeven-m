@@ -35,6 +35,16 @@ export function ButtonLink({ href, children, variant = 'dark', icon = 'arrow', c
   );
 }
 
+/** Downloadable file (e.g. a project brochure) styled as a button. */
+export function DownloadButton({ href, children, variant = 'outline', className = '' }: { href: string; children: React.ReactNode; variant?: ButtonVariant; className?: string }) {
+  return (
+    <a className={`btn btn--${variant} ${className}`} href={href} download target="_blank" rel="noopener">
+      <span>{children}</span>
+      <Icon name="download" />
+    </a>
+  );
+}
+
 /** Understated text link with a sliding arrow, e.g. "View Project →". */
 export function ArrowLink({ href, children, className = '' }: { href: string; children: React.ReactNode; className?: string }) {
   return (

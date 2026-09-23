@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import type { Project } from '@/lib/data';
+import { projectAlt, type Project } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 
 export function ProjectCard({ project, compact = false, index = 0 }: { project: Project; compact?: boolean; index?: number }) {
@@ -10,7 +10,7 @@ export function ProjectCard({ project, compact = false, index = 0 }: { project: 
         <div className="project-card__media">
           <Image
             src={project.image}
-            alt={`${project.name} — ${project.category} (placeholder image)`}
+            alt={projectAlt(project, project.category)}
             fill
             sizes="(max-width: 760px) 100vw, (max-width: 1200px) 50vw, 640px"
           />

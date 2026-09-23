@@ -36,6 +36,15 @@ function respond(input: string): { text: string; actions?: Action[]; capture?: C
     };
   if (/\b[234]\s?bhk\b/.test(q)) {
     const cfg = q.match(/[234]\s?bhk/)![0].replace(/\s/, ' ').toUpperCase();
+    if (cfg.startsWith('3'))
+      return {
+        text: 'Great choice. Zeven-M Ace Apartments at Sun City, Hyderabad offers 20 luxurious 3 BHK homes of 1,750 sq. ft. each across five storeys — GHMC approved. Would you like the brochure or a site visit?',
+        actions: [
+          { label: 'View Zeven-M Ace Apartments', href: '/projects/zeven-m-ace-apartments' },
+          { label: 'Download Brochure', href: '/brochures/zeven-m-ace-apartments-brochure.pdf', external: true },
+          { label: 'Book Site Visit', send: 'Can I schedule a site visit?' },
+        ],
+      };
     return {
       text: `Great choice. ${cfg} homes are showcased across our residential developments, including Zeven-M Residences and Zeven-M Heights. Would you like our team to share details and availability?`,
       actions: [

@@ -31,6 +31,11 @@ const paths = {
   parking: <><rect x="3.5" y="3.5" width="17" height="17" rx="1" /><path d="M9.5 17V7.5h3.3a2.8 2.8 0 0 1 0 5.6H9.5" /></>,
   track: <><ellipse cx="12" cy="12" rx="9" ry="6" /><ellipse cx="12" cy="12" rx="5" ry="2.5" /></>,
   quote: <path d="M10 7C6.5 8 4.5 10.5 4.5 14v3.5H10V12H7c0-2 1-3.3 3-4ZM19.5 7c-3.5 1-5.5 3.5-5.5 7v3.5h5.5V12h-3c0-2 1-3.3 3-4Z" />,
+  lift: <><rect x="5" y="3" width="14" height="18" rx="1" /><path d="M12 3v18M8.5 9.5 10 8l1.5 1.5M12.5 14.5 14 16l1.5-1.5" /></>,
+  camera: <><path d="M3.5 8.5 15 5l1.5 5L5 13.5z" /><path d="M16 7.5 20 6.5M9 13v4.5H5.5M9 17.5h3" /></>,
+  bolt: <path d="M13 3 5.5 13.5H12L11 21l7.5-10.5H12L13 3Z" />,
+  drop: <path d="M12 3.5s-6 6.6-6 11a6 6 0 0 0 12 0c0-4.4-6-11-6-11Z" />,
+  download: <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14" />,
 } as const;
 
 export type IconName = keyof typeof paths | 'whatsapp';

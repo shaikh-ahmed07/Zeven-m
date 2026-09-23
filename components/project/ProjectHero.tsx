@@ -1,18 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import type { Project } from '@/lib/data';
-import { typeLabels } from '@/lib/data';
+import { projectAlt, typeLabels, type Project } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 import { EnquireButton } from '@/components/ui/EnquireButton';
+import { DownloadButton } from '@/components/ui/Button';
 import { SubNav } from './SubNav';
-
 
 export function ProjectHero({ project }: { project: Project }) {
   return (
     <>
       <section className="phero" aria-labelledby="project-title">
         <div className="phero__media hero__drift">
-          <Image src={project.heroImage} alt={`${project.name} (placeholder image)`} fill preload sizes="100vw" className="hero__img" />
+          <Image src={project.heroImage} alt={projectAlt(project, 'exterior')} fill preload sizes="100vw" className="hero__img" />
         </div>
         <div className="hero__shade" aria-hidden="true" />
         <div className="hero__light" aria-hidden="true" />
@@ -44,6 +43,11 @@ export function ProjectHero({ project }: { project: Project }) {
             <EnquireButton variant="ghost" icon="calendar" project={project.name} interest="Site Visit" title="Schedule a Site Visit">
               Schedule a Site Visit
             </EnquireButton>
+            {project.brochure && (
+              <DownloadButton href={project.brochure.href} variant="ghost">
+                {project.brochure.label}
+              </DownloadButton>
+            )}
           </div>
         </div>
       </section>
@@ -59,7 +63,7 @@ export function ProjectHero({ project }: { project: Project }) {
         </dl>
       </div>
 
-      <SubNav name={project.name} />
+      <SubNav name={project.name} hasSpecs={!!project.specifications} />
     </>
   );
 }

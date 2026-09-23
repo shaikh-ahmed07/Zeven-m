@@ -3,28 +3,21 @@ import { featured } from '@/lib/data';
 import { ButtonLink } from '@/components/ui/Button';
 import { EnquireButton } from '@/components/ui/EnquireButton';
 
-/* PLACEHOLDER headline figures for the featured development */
-const figures = [
-  { value: '3.5', unit: 'Acres', label: 'Project Area' },
-  { value: '3', unit: 'Towers', label: 'Development' },
-  { value: '2 & 3', unit: 'BHK', label: 'Residences' },
-  { value: '300+', unit: '', label: 'Premium Homes' },
-  { value: '25+', unit: '', label: 'Lifestyle Amenities' },
-];
-
+/** Homepage feature for the development set as `featured` in lib/data.ts. */
 export function FeaturedProject() {
+  const [brand, ...rest] = featured.name.split(' ');
   return (
     <section id="featured" className="featured section" aria-labelledby="featured-title">
       <div className="container featured__grid">
         <div className="featured__copy">
           <p className="eyebrow reveal">Featured Development</p>
           <h2 id="featured-title" className="featured__title reveal" style={{ '--d': '80ms' } as React.CSSProperties}>
-            Zeven-M
+            {brand}
             <br />
-            Residences
+            {rest.join(' ')}
           </h2>
           <p className="featured__config reveal" style={{ '--d': '140ms' } as React.CSSProperties}>
-            Premium 2 &amp; 3 BHK Residences
+            {featured.config} · {featured.location}
           </p>
           <p className="featured__text reveal" style={{ '--d': '200ms' } as React.CSSProperties}>
             {featured.summary}
@@ -43,7 +36,7 @@ export function FeaturedProject() {
           <div className="featured__frame">
             <Image
               src={featured.image}
-              alt="Zeven-M Residences — contemporary apartment facade (placeholder image)"
+              alt={`${featured.name} — exterior render`}
               fill
               sizes="(max-width: 900px) 100vw, 58vw"
               data-parallax="0.06"
@@ -54,20 +47,21 @@ export function FeaturedProject() {
         </div>
       </div>
 
-      <div className="container">
-        <dl className="figures reveal reveal--lines">
-          {figures.map((f, i) => (
-            <div key={f.label} className="figures__item reveal" style={{ '--d': `${i * 80}ms` } as React.CSSProperties}>
-              <dt>{f.label}</dt>
-              <dd>
-                {f.value}
-                {f.unit && <span> {f.unit}</span>}
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <p className="placeholder-note">Figures shown are indicative placeholders for this template.</p>
-      </div>
+      {featured.highlights && (
+        <div className="container">
+          <dl className="figures reveal reveal--lines">
+            {featured.highlights.map((f) => (
+              <div key={f.label} className="figures__item">
+                <dt>{f.label}</dt>
+                <dd>
+                  {f.value}
+                  {f.unit && <span> {f.unit}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
     </section>
   );
 }
