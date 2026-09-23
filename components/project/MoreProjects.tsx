@@ -11,7 +11,7 @@ export function MoreProjects({ current }: { current: string }) {
           <h2 id="more-title" className="display reveal">
             More <em>Projects</em>
           </h2>
-          <ArrowLink href="/#projects">All Projects</ArrowLink>
+          <ArrowLink href="/projects">All Projects</ArrowLink>
         </div>
         <div className="more__grid">
           {others.map((p, i) => (

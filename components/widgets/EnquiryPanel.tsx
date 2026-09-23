@@ -65,6 +65,7 @@ export function EnquiryPanel() {
             interest={enquiry?.interest}
             project={enquiry?.project}
             submitLabel={enquiry?.interest === 'Site Visit' ? 'Request Site Visit' : 'Request a Callback'}
+            source="enquiry-panel"
           />
         )}
         <div className="drawer__alt">

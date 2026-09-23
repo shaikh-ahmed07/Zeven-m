@@ -7,6 +7,7 @@ import { Icon } from '@/components/ui/Icon';
 import { Logo } from '@/components/layout/Logo';
 import { whatsappLink } from '@/lib/data';
 import { scrollToId, useScrollLock, whenUnlocked } from '@/lib/scroll';
+import { enquirySummary, submitEnquiry } from '@/lib/enquiry';
 
 type Action = { label: string; send?: string; href?: string; external?: boolean };
 type Message = { id: number; from: 'bot' | 'user'; text: string; actions?: Action[] };
@@ -69,7 +70,7 @@ function respond(input: string): { text: string; actions?: Action[]; capture?: C
     return {
       text: 'We offer integrated Design & PMC and Contracting — from architectural concept and approvals to disciplined execution and handover. Tell us about your site or project and our team will reach out.',
       actions: [
-        { label: 'Our Services', href: '/#services' },
+        { label: 'Our Services', href: '/services' },
         { label: 'Talk to Sales', send: 'I want to talk to sales.' },
       ],
     };
@@ -77,7 +78,7 @@ function respond(input: string): { text: string; actions?: Action[]; capture?: C
     return {
       text: 'We currently showcase premium residential, villa and commercial developments. Explore our Projects section to view available developments.',
       actions: [
-        { label: 'Explore Projects', href: '/#projects' },
+        { label: 'Explore Projects', href: '/projects' },
         { label: 'Explore Apartments', send: 'I want to buy a flat.' },
       ],
     };
@@ -147,7 +148,7 @@ export function Chatbot() {
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const [capture, setCapture] = useState<Capture>(null);
-  const [lead, setLead] = useState<{ name?: string }>({});
+  const [leadName, setLeadName] = useState<string>();
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const nextId = useRef(1);
@@ -188,7 +189,7 @@ export function Chatbot() {
 
     if (capture === 'name') {
       const name = text.replace(/^(my name is|i am|i'm)\s+/i, '').split(' ')[0];
-      setLead({ name });
+      setLeadName(name);
       setCapture('phone');
       return botReply({ text: `Thank you, ${name}. What is the best phone number to reach you on?` });
     }
@@ -197,10 +198,22 @@ export function Chatbot() {
       if (!/^\+?\d{8,14}$/.test(digits))
         return botReply({ text: 'That number doesn’t look quite right. Could you share a 10-digit mobile number?' });
       setCapture(null);
-      return botReply({
-        text: `Perfect${lead.name ? `, ${lead.name}` : ''}. Our team will call you on ${digits} to arrange your site visit at a convenient time. (Demo: no details are sent in this template.)`,
-        actions: [{ label: 'Explore Projects', href: '/#projects' }],
-      });
+      const lead = { name: leadName ?? '', phone: digits, interest: 'Site Visit', source: 'chat' };
+      setTyping(true);
+      submitEnquiry(lead)
+        .then(() =>
+          botReply({
+            text: `Thank you${leadName ? `, ${leadName}` : ''}. Your site-visit request has been sent — our team will call you on ${digits} to arrange a convenient time.`,
+            actions: [{ label: 'Explore Projects', href: '/projects' }],
+          }),
+        )
+        .catch(() =>
+          botReply({
+            text: 'I couldn’t send your request automatically just now. Tap below to send it to our team on WhatsApp — your details are already filled in.',
+            actions: [{ label: 'Send on WhatsApp', href: whatsappLink(enquirySummary(lead)), external: true }],
+          }),
+        );
+      return;
     }
 
     const r = respond(text);

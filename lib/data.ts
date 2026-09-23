@@ -16,7 +16,6 @@ export const photo = (id: string) =>
 
 export const site = {
   name: 'Zeven-M Projects & Realty',
-  shortName: 'Zeven-M',
   tagline: 'From Vision to Creation — Excellence in Design, Development & Construction',
   supporting: 'Design. Develop. Construct.',
   office: 'Hyderabad, Telangana, India',
@@ -30,14 +29,21 @@ export const site = {
 export const whatsappLink = (text: string = site.whatsappText) =>
   `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
 
+/** Office location on Google Maps (replace the query with the exact office address). */
+export const officeMapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.office)}`;
+
 export const navLinks = [
-  { label: 'Home', href: '/#home' },
-  { label: 'About', href: '/#about' },
-  { label: 'Projects', href: '/#projects' },
-  { label: 'Services', href: '/#services' },
-  { label: 'Why Zeven-M', href: '/#why-zeven' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Services', href: '/services' },
+  { label: 'Why Zeven-M', href: '/why-zeven' },
+  { label: 'Contact', href: '/contact' },
 ];
+
+/** A nav item is active on its own route and on any route beneath it (e.g. /projects/…). */
+export const isActivePath = (href: string, pathname: string) =>
+  href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 
 export const images = {
   hero: photo('1582407947304-fd86f028f716'),
@@ -50,6 +56,12 @@ export const images = {
     { src: photo('1487958449943-2429e8be8625'), label: 'Facade' },
   ],
   cta: photo('1600585154526-990dced4db0d'),
+  /* Page banners */
+  pageAbout: photo('1600047509358-9dc75507daeb'),
+  pageServices: photo('1541888946425-d81bb19240f5'),
+  pageProjects: photo('1460317442991-0ec209397118'),
+  pageWhy: photo('1600596542815-ffad4c1539a9'),
+  pageContact: photo('1600566753190-17f0baa2a6c3'),
 };
 
 /* Company statistics — PLACEHOLDER figures */
@@ -69,18 +81,19 @@ export type Service = {
   text: string;
   interest: string;
   scope: string[];
+  image: string;
 };
 export const services: Service[] = [
-  { slug: 'development', no: '01', icon: 'development', title: 'Development', interest: 'Project Enquiry',
+  { slug: 'development', image: photo('1487958449943-2429e8be8625'), no: '01', icon: 'development', title: 'Development', interest: 'Project Enquiry',
     text: 'Strategic real-estate development focused on creating valuable, thoughtfully planned residential and commercial spaces.',
     scope: ['Land & opportunity assessment', 'Feasibility & financial planning', 'Master planning & product mix', 'Approvals coordination', 'Sales & marketing strategy'] },
-  { slug: 'design-pmc', no: '02', icon: 'design', title: 'Design & PMC', interest: 'Design & PMC',
+  { slug: 'design-pmc', image: photo('1503387762-592deb58ef4e'), no: '02', icon: 'design', title: 'Design & PMC', interest: 'Design & PMC',
     text: 'Integrated design and project management that brings architectural vision, technical precision and execution together.',
     scope: ['Architectural & interior design', 'Structural & MEP coordination', 'Budgeting & cost control', 'Scheduling & progress tracking', 'Quality & safety audits'] },
-  { slug: 'contracting', no: '03', icon: 'contracting', title: 'Contracting', interest: 'Construction',
+  { slug: 'contracting', image: photo('1504307651254-35680f356dfd'), no: '03', icon: 'contracting', title: 'Contracting', interest: 'Construction',
     text: 'Disciplined construction execution with close attention to quality, timelines, materials and craftsmanship.',
     scope: ['Civil & structural works', 'Finishing & interiors', 'Procurement & materials management', 'Site supervision', 'Handover & snagging'] },
-  { slug: 'real-estate', no: '04', icon: 'realestate', title: 'Real Estate', interest: 'Buying a Home',
+  { slug: 'real-estate', image: photo('1600210492486-724fe5c67fb0'), no: '04', icon: 'realestate', title: 'Real Estate', interest: 'Buying a Home',
     text: 'Premium residential and commercial spaces designed to deliver long-term value and a superior ownership experience.',
     scope: ['Premium apartments & villas', 'Commercial & retail spaces', 'Guided site visits', 'Documentation & home-loan assistance', 'After-sales support'] },
 ];

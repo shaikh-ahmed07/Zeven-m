@@ -28,7 +28,7 @@ export function Craftsmanship() {
             From the foundation beneath your feet to the details you see every day, Zeven-M is committed to precision,
             craftsmanship and lasting quality.
           </p>
-          <ArrowLink href="/#process" className="link-arrow--light reveal">
+          <ArrowLink href="/about#process" className="link-arrow--light reveal">
             Our Approach
           </ArrowLink>
         </div>

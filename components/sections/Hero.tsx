@@ -33,10 +33,10 @@ export function Hero() {
           Creating premium spaces where architecture, craftsmanship and purposeful development come together.
         </p>
         <div className="hero__actions">
-          <ButtonLink href="/#projects" variant="light">
+          <ButtonLink href="/projects" variant="light">
             Explore Our Projects
           </ButtonLink>
-          <ButtonLink href="/#contact" variant="ghost" icon={null}>
+          <ButtonLink href="/contact" variant="ghost" icon={null}>
             Enquire Now
           </ButtonLink>
         </div>

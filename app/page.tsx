@@ -1,15 +1,11 @@
-import { Hero } from '@/components/home/Hero';
-import { FeaturedProject } from '@/components/home/FeaturedProject';
-import { About } from '@/components/home/About';
-import { Stats } from '@/components/home/Stats';
-import { Services } from '@/components/home/Services';
-import { Projects } from '@/components/home/Projects';
-import { WhyZevenM } from '@/components/home/WhyZevenM';
-import { Process } from '@/components/home/Process';
-import { Craftsmanship } from '@/components/home/Craftsmanship';
-import { Testimonials } from '@/components/home/Testimonials';
-import { CtaBanner } from '@/components/home/CtaBanner';
-import { Contact } from '@/components/home/Contact';
+import { Hero } from '@/components/sections/Hero';
+import { FeaturedProject } from '@/components/sections/FeaturedProject';
+import { About } from '@/components/sections/About';
+import { Stats } from '@/components/sections/Stats';
+import { Services } from '@/components/sections/Services';
+import { Projects } from '@/components/sections/Projects';
+import { Testimonials } from '@/components/sections/Testimonials';
+import { CtaBanner } from '@/components/sections/CtaBanner';
 
 export default function HomePage() {
   return (
@@ -19,13 +15,9 @@ export default function HomePage() {
       <About />
       <Stats />
       <Services />
-      <Projects />
-      <WhyZevenM />
-      <Process />
-      <Craftsmanship />
+      <Projects variant="preview" />
       <Testimonials />
       <CtaBanner />
-      <Contact />
     </>
   );
 }

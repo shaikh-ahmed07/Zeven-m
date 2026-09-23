@@ -10,8 +10,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 export function Gallery({ project }: { project: Project }) {
   const [active, setActive] = useState<number | null>(null);
-  const [slide, setSlide] = useState(0);
-  const trackRef = useRef<HTMLUListElement>(null);
   const total = project.gallery.length;
   const step = useCallback((d: number) => setActive((i) => (i === null ? i : (i + d + total) % total)), [total]);
 
@@ -25,20 +23,6 @@ export function Gallery({ project }: { project: Project }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [active, step]);
 
-  /* Mobile carousel position → counter. */
-  const onTrackScroll = () => {
-    const track = trackRef.current;
-    if (!track || !track.firstElementChild) return;
-    const w = (track.firstElementChild as HTMLElement).offsetWidth + 12;
-    setSlide(Math.min(total - 1, Math.round(track.scrollLeft / w)));
-  };
-  const scrollTrack = (d: number) => {
-    const track = trackRef.current;
-    if (!track || !track.firstElementChild) return;
-    const w = (track.firstElementChild as HTMLElement).offsetWidth + 12;
-    track.scrollTo({ left: (slide + d) * w, behavior: 'smooth' });
-  };
-
   return (
     <section id="gallery" className="gallery section" aria-labelledby="gallery-title">
       <div className="container">
@@ -49,19 +33,8 @@ export function Gallery({ project }: { project: Project }) {
               Inside <em>{project.name.replace('Zeven-M ', '')}</em>
             </h2>
           </div>
-          <div className="gallery__controls" aria-hidden="true">
-            <span className="gallery__counter">
-              {pad(slide + 1)} <i /> {pad(total)}
-            </span>
-            <button type="button" tabIndex={-1} aria-label="Previous image" onClick={() => scrollTrack(-1)} disabled={slide === 0}>
-              <Icon name="chevronLeft" />
-            </button>
-            <button type="button" tabIndex={-1} aria-label="Next image" onClick={() => scrollTrack(1)} disabled={slide === total - 1}>
-              <Icon name="chevronRight" />
-            </button>
-          </div>
         </div>
-        <ul className="masonry" ref={trackRef} onScroll={onTrackScroll}>
+        <ul className="masonry">
           {project.gallery.map(([src, label], i) => (
             <li key={`${src}-${i}`} className={`masonry__item masonry__item--${i % 3} reveal reveal--image`}>
               <button type="button" onClick={() => setActive(i)} aria-label={`Open image ${i + 1} of ${total}: ${label}`}>

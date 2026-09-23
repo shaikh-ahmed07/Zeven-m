@@ -35,34 +35,57 @@ images, put them in `public/images/` and replace `photo('…')` with `'/images/y
 Colours and proportions are unchanged. The supplied file is 452×452 px, so a higher-resolution
 original (SVG or ≥1500 px PNG) will give a sharper result on retina screens.
 
-## Forms & chatbot
+## Pages
 
-Forms are front-end only. Connect `submitEnquiry()` in `components/forms/EnquiryForm.tsx` to your
-CRM or API route. The chatbot (`components/widgets/Chatbot.tsx`) uses predefined responses in
-`respond()`. Extend it there or swap in a live assistant.
+| Route | Content |
+| --- | --- |
+| `/` | Hero, featured development, about intro, stats, services overview, project preview, testimonials |
+| `/about` | Company story, pillars, design + construction process (`/about#process`) |
+| `/services` | One section per service with scope of work (`/services#service-<slug>`) |
+| `/projects` | Filterable portfolio — `/projects?filter=villas` etc. are shareable |
+| `/projects/<slug>` | Project detail (generated from `projects` in `lib/data.ts`) |
+| `/why-zeven` | Principles and craftsmanship |
+| `/contact` | Contact details and enquiry form — `/contact?interest=Construction` pre-selects the interest |
+| `/privacy`, `/terms` | Legal placeholders |
+
+## Enquiries (forms + chatbot site visits)
+
+Every form posts to `POST /api/enquiry` (`app/api/enquiry/route.ts`), which validates the data and
+forwards it as JSON to **`ENQUIRY_WEBHOOK_URL`** — a CRM, Zapier/Make webhook, Google Apps
+Script, Slack incoming webhook, etc. Copy `.env.example` to `.env.local` and set it.
+
+Until it is set, the API returns 503 and visitors see *"Your enquiry was not sent"* with Call,
+WhatsApp and Email buttons pre-filled with what they typed — nothing is faked. To use a hosted form
+service instead, set `NEXT_PUBLIC_ENQUIRY_ENDPOINT`.
+
+The API route needs a Node server (`npm run build && npm start`, or Vercel / any Node host).
+
+The chatbot's answers are predefined in `respond()` in `components/widgets/Chatbot.tsx`.
 
 ## Structure
 
 ```
 app/                      routes (home, projects/[slug], privacy, terms, 404)
-components/home/          homepage sections
+components/sections/      page sections shared across routes
 components/project/       project-detail sections
 components/projects/      ProjectCard (shared)
 components/forms/         EnquiryForm (shared)
 components/widgets/       Chatbot, EnquiryPanel, FloatingActions
-components/layout/        Navbar, Footer, Logo
+components/layout/        Navbar, Footer, Logo, PageHero
 components/ui/            Icon, Button, Modal, Counter, SectionHeading
 components/providers/     UIProvider (enquiry drawer, chat state, scroll reveals, parallax)
 lib/data.ts               all content
+lib/enquiry.ts            validation + submission shared by forms, chat and the API
+lib/scroll.ts             scroll loop, scroll lock, offset-aware section scrolling
 ```
 
 ## Navigation & interaction notes
 
-- **In-page links** (`/#projects`, `#gallery`, footer links…) are handled centrally in
-  `components/providers/UIProvider.tsx`: open menus/sheets close first, then the page scrolls so
-  the section content lands just below the sticky navbar (and the project sub-nav). Section IDs:
-  `home`, `about`, `services`, `projects`, `why-zeven`, `process`, `contact`, plus
-  `service-<slug>` for each service card.
+- **Navigation** uses real routes. The active navbar item follows the URL (`isActivePath` in
+  `lib/data.ts`); project detail pages highlight "Projects".
+- **Anchors** (`/about#process`, `/services#service-contracting`, the project sections menu) are
+  handled in `components/providers/UIProvider.tsx`: menus close first, then the page scrolls so the
+  content lands just below the sticky navbar — also when arriving from another page.
 - **Scroll-driven effects** (navbar state, progress line, active link, parallax, process timeline)
   share one throttled loop in `lib/scroll.ts`. `useScrollLock()` there is the only way the site
   locks page scrolling (menu, chat on phones, enquiry panel, sheets) — it is reference-counted

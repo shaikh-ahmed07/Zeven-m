@@ -3,31 +3,32 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { navLinks, site, whatsappLink } from '@/lib/data';
+import { isActivePath, navLinks, site, whatsappLink } from '@/lib/data';
 import { NAVIGATE_EVENT, useUI } from '@/components/providers/UIProvider';
 import { Icon } from '@/components/ui/Icon';
 import { onScrollFrame, useScrollLock } from '@/lib/scroll';
 import { Logo } from './Logo';
 
-const sectionIds = navLinks.map((l) => l.href.split('#')[1]);
+const HERO_ROUTES = /^\/(about|services|projects(\/.*)?|why-zeven|contact)?$/;
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [active, setActive] = useState('home');
   const { openEnquiry } = useUI();
-  const pathname = usePathname();
   const progressRef = useRef<HTMLSpanElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  const isHome = pathname === '/';
-  // Pages without a full-bleed hero image get the solid bar from the start.
-  const hasHero = isHome || pathname.startsWith('/projects/');
+  // Transparent over a full-bleed hero image; solid on pages without one (legal, 404).
+  const [hasHero, setHasHero] = useState(() => HERO_ROUTES.test(pathname));
+  useEffect(() => {
+    setHasHero(!!document.querySelector('.hero, .phero, .page-hero'));
+  }, [pathname]);
 
   useScrollLock(menuOpen);
 
-  /* Solid state, scroll progress and the active section — one rAF loop. */
+  /* Solid state and scroll progress — one rAF loop. */
   useEffect(
     () =>
       onScrollFrame(() => {
@@ -37,23 +38,8 @@ export function Navbar() {
         setScrolled(y > 40);
         const max = html.scrollHeight - window.innerHeight;
         if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
-
-        if (!isHome) return setActive(pathname.startsWith('/projects/') ? 'projects' : '');
-        // The tracked section whose top is closest above 40% of the viewport wins.
-        const line = window.innerHeight * 0.4;
-        let current = 'home';
-        let best = -Infinity;
-        for (const id of sectionIds) {
-          const top = document.getElementById(id)?.getBoundingClientRect().top;
-          if (top !== undefined && top <= line && top > best) {
-            best = top;
-            current = id;
-          }
-        }
-        if (y >= max - 4) current = 'contact';
-        setActive(current);
       }),
-    [isHome, pathname],
+    [],
   );
 
   useEffect(() => setMenuOpen(false), [pathname]);
@@ -99,13 +85,13 @@ export function Navbar() {
   }, [menuOpen]);
 
   const solid = (scrolled || !hasHero) && !menuOpen;
-  const linkClass = (href: string) => (active && href.endsWith(`#${active}`) ? 'is-active' : undefined);
+  const linkClass = (href: string) => (isActivePath(href, pathname) ? 'is-active' : undefined);
 
   return (
     <header ref={headerRef} className={`nav ${solid ? 'nav--solid' : ''} ${menuOpen ? 'nav--open' : ''}`}>
       <span className="nav__progress" ref={progressRef} aria-hidden="true" />
       <div className="nav__inner container">
-        <Link href="/#home" className="nav__brand" aria-label="Zeven-M Projects & Realty — home">
+        <Link href="/" className="nav__brand" aria-label="Zeven-M Projects & Realty — home">
           <Logo variant="gold" className="nav__logo nav__logo--gold" preload />
           <Logo variant="plate" className="nav__logo nav__logo--plate" />
         </Link>
@@ -117,7 +103,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   className={linkClass(link.href)}
-                  aria-current={linkClass(link.href) ? 'location' : undefined}
+                  aria-current={linkClass(link.href) ? 'page' : undefined}
                 >
                   {link.label}
                 </Link>
@@ -170,7 +156,7 @@ export function Navbar() {
                   <Link
                     href={link.href}
                     className={linkClass(link.href)}
-                    aria-current={linkClass(link.href) ? 'location' : undefined}
+                    aria-current={linkClass(link.href) ? 'page' : undefined}
                     onClick={() => setMenuOpen(false)}
                   >
                     <span className="mobile-menu__no">0{i + 1}</span>

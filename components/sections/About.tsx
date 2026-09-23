@@ -2,7 +2,8 @@ import Image from 'next/image';
 import { images } from '@/lib/data';
 import { ArrowLink } from '@/components/ui/Button';
 
-export function About() {
+/** `full` (the /about page) adds the second paragraph and pillars; the homepage shows the teaser. */
+export function About({ full = false }: { full?: boolean }) {
   return (
     <section id="about" className="about section" aria-labelledby="about-title">
       <div className="container about__grid">
@@ -36,19 +37,29 @@ export function About() {
             Zeven-M Projects &amp; Realty transforms visions into premium living and working spaces through end-to-end
             excellence in Development, Design &amp; PMC, and Contracting.
           </p>
-          <p className="reveal" style={{ '--d': '220ms' } as React.CSSProperties}>
-            From luxury homes and signature villas to modern commercial spaces, we bring together thoughtful design,
-            disciplined execution and uncompromising attention to detail to create developments built around the way
-            people live, work and grow.
-          </p>
-          <ul className="about__pillars reveal" style={{ '--d': '280ms' } as React.CSSProperties}>
-            <li>Development</li>
-            <li>Design &amp; PMC</li>
-            <li>Contracting</li>
-          </ul>
-          <ArrowLink href="/#why-zeven" className="reveal">
-            Discover Zeven-M
-          </ArrowLink>
+          {full && (
+            <>
+              <p className="reveal" style={{ '--d': '220ms' } as React.CSSProperties}>
+                From luxury homes and signature villas to modern commercial spaces, we bring together thoughtful design,
+                disciplined execution and uncompromising attention to detail to create developments built around the way
+                people live, work and grow.
+              </p>
+              <ul className="about__pillars reveal" style={{ '--d': '280ms' } as React.CSSProperties}>
+                <li>Development</li>
+                <li>Design &amp; PMC</li>
+                <li>Contracting</li>
+              </ul>
+            </>
+          )}
+          {full ? (
+            <ArrowLink href="/why-zeven" className="reveal">
+              Why Zeven-M
+            </ArrowLink>
+          ) : (
+            <ArrowLink href="/about" className="about__more reveal">
+              Discover Zeven-M
+            </ArrowLink>
+          )}
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { site, whatsappLink } from '@/lib/data';
+import { officeMapLink, site, whatsappLink } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 import { Logo } from './Logo';
 
@@ -7,30 +7,30 @@ const columns = [
   {
     title: 'Company',
     links: [
-      ['About', '/#about'],
-      ['Projects', '/#projects'],
-      ['Services', '/#services'],
-      ['Why Zeven-M', '/#why-zeven'],
-      ['Contact', '/#contact'],
+      ['About', '/about'],
+      ['Projects', '/projects'],
+      ['Services', '/services'],
+      ['Why Zeven-M', '/why-zeven'],
+      ['Contact', '/contact'],
     ],
   },
   {
     title: 'Projects',
     links: [
-      ['Residential', '/?filter=residential#projects'],
-      ['Villas', '/?filter=villas#projects'],
-      ['Commercial', '/?filter=commercial#projects'],
-      ['Ongoing', '/?filter=ongoing#projects'],
-      ['Completed', '/?filter=completed#projects'],
+      ['Residential', '/projects?filter=residential#projects'],
+      ['Villas', '/projects?filter=villas#projects'],
+      ['Commercial', '/projects?filter=commercial#projects'],
+      ['Ongoing', '/projects?filter=ongoing#projects'],
+      ['Completed', '/projects?filter=completed#projects'],
     ],
   },
   {
     title: 'Services',
     links: [
-      ['Development', '/#service-development'],
-      ['Design & PMC', '/#service-design-pmc'],
-      ['Contracting', '/#service-contracting'],
-      ['Real Estate', '/#service-real-estate'],
+      ['Development', '/services#service-development'],
+      ['Design & PMC', '/services#service-design-pmc'],
+      ['Contracting', '/services#service-contracting'],
+      ['Real Estate', '/services#service-real-estate'],
     ],
   },
 ] as const;
@@ -63,9 +63,9 @@ export function Footer() {
               <h2>Contact</h2>
               <ul>
                 <li>
-                  <span className="footer__line">
+                  <a href={officeMapLink} target="_blank" rel="noopener noreferrer">
                     <Icon name="pin" /> Hyderabad, India
-                  </span>
+                  </a>
                 </li>
                 <li>
                   <a href={site.phoneHref}>
@@ -94,10 +94,6 @@ export function Footer() {
             <Link href="/terms">Terms &amp; Conditions</Link>
           </p>
         </div>
-        <p className="footer__disclaimer">
-          Template notice: project details, figures, images and contact numbers on this website are placeholders for
-          demonstration and do not represent actual offerings.
-        </p>
       </div>
     </footer>
   );

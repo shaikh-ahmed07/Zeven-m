@@ -20,7 +20,7 @@ export function ProjectHero({ project }: { project: Project }) {
           <nav className="breadcrumb" aria-label="Breadcrumb">
             <Link href="/">Home</Link>
             <span aria-hidden="true">/</span>
-            <Link href="/#projects">Projects</Link>
+            <Link href="/projects">Projects</Link>
             <span aria-hidden="true">/</span>
             <span aria-current="page">{project.name}</span>
           </nav>

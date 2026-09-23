@@ -1,10 +1,10 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { projects } from '@/lib/data';
 import { ProjectCard } from '@/components/projects/ProjectCard';
-import { FILTER_EVENT } from '@/components/providers/UIProvider';
+import { ButtonLink } from '@/components/ui/Button';
 
 const filters = [
   { key: 'all', label: 'All' },
@@ -15,70 +15,77 @@ const filters = [
   { key: 'completed', label: 'Completed' },
 ] as const;
 type FilterKey = (typeof filters)[number]['key'];
+const isFilter = (v: string | null): v is FilterKey => filters.some((f) => f.key === v);
 
 const matches = (key: FilterKey) => (p: (typeof projects)[number]) =>
   key === 'all' || p.type === key || p.status.toLowerCase() === key;
 
-/** Syncs the filter with ?filter= links (e.g. from the footer). */
+/** Keeps the filter in sync with /projects?filter=… (links from the footer, back/forward). */
 function FilterFromUrl({ onChange }: { onChange: (k: FilterKey) => void }) {
-  const params = useSearchParams();
-  const value = params.get('filter');
-  useEffect(() => {
-    if (value && filters.some((f) => f.key === value)) onChange(value as FilterKey);
-  }, [value, onChange]);
+  const value = useSearchParams().get('filter');
+  useEffect(() => onChange(isFilter(value) ? value : 'all'), [value, onChange]);
   return null;
 }
 
-export function Projects() {
-  const [active, setActive] = useState<FilterKey>('all');
-  const list = projects.filter(matches(active));
+type Props = {
+  /** `preview` (homepage): first few projects + "View All Projects". `full` (/projects): filterable grid. */
+  variant?: 'preview' | 'full';
+  limit?: number;
+};
 
-  // Footer links such as "/?filter=villas#projects" switch the filter in place.
-  useEffect(() => {
-    const onFilter = (e: Event) => {
-      const key = (e as CustomEvent<string>).detail;
-      if (filters.some((f) => f.key === key)) setActive(key as FilterKey);
-    };
-    window.addEventListener(FILTER_EVENT, onFilter);
-    return () => window.removeEventListener(FILTER_EVENT, onFilter);
-  }, []);
+export function Projects({ variant = 'full', limit = 4 }: Props) {
+  const [active, setActive] = useState<FilterKey>('all');
+  const router = useRouter();
+  const pathname = usePathname();
+  const full = variant === 'full';
+  const list = full ? projects.filter(matches(active)) : projects.slice(0, limit);
+
+  const choose = (key: FilterKey) => {
+    setActive(key);
+    router.replace(key === 'all' ? pathname : `${pathname}?filter=${key}`, { scroll: false });
+  };
 
   return (
     <section id="projects" className="projects section" aria-labelledby="projects-title">
-      <Suspense fallback={null}>
-        <FilterFromUrl onChange={setActive} />
-      </Suspense>
+      {full && (
+        <Suspense fallback={null}>
+          <FilterFromUrl onChange={setActive} />
+        </Suspense>
+      )}
       <div className="container">
         <div className="projects__head">
           <div>
             <p className="eyebrow reveal">Portfolio</p>
             <h2 id="projects-title" className="display reveal" style={{ '--d': '80ms' } as React.CSSProperties}>
-              Our Projects
+              {full ? 'All Projects' : 'Our Projects'}
             </h2>
             <p className="lead reveal" style={{ '--d': '160ms' } as React.CSSProperties}>
               Spaces designed to become landmarks.
             </p>
           </div>
-          <div className="filters reveal" role="group" aria-label="Filter projects">
-            {filters.map((f) => {
-              const count = projects.filter(matches(f.key)).length;
-              return (
+          {full ? (
+            <div className="filters reveal" role="group" aria-label="Filter projects">
+              {filters.map((f) => (
                 <button
                   key={f.key}
                   type="button"
                   className={`filters__btn ${active === f.key ? 'is-active' : ''}`}
                   aria-pressed={active === f.key}
-                  onClick={() => setActive(f.key)}
+                  onClick={() => choose(f.key)}
                 >
                   {f.label}
-                  <sup>{count}</sup>
+                  <sup>{projects.filter(matches(f.key)).length}</sup>
                 </button>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <ButtonLink href="/projects" variant="outline" className="reveal">
+              View All Projects
+            </ButtonLink>
+          )}
         </div>
 
-        <div className="projects__grid" key={active} aria-live="polite">
+        <div className="projects__grid" key={active} aria-live={full ? 'polite' : undefined}>
           {list.map((p, i) => (
             <ProjectCard key={p.slug} project={p} index={i} />
           ))}

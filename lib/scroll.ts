@@ -22,7 +22,7 @@ function flush() {
 const nextFrame = (cb: () => void) =>
   document.hidden ? window.setTimeout(cb, 16) : window.requestAnimationFrame(cb);
 
-export function requestScrollFrame() {
+function requestScrollFrame() {
   if (queued) return;
   queued = true;
   nextFrame(flush);
@@ -49,7 +49,7 @@ export const prefersReducedMotion = () =>
 let locks = 0;
 let savedY = 0;
 
-export const isScrollLocked = () => locks > 0;
+const isScrollLocked = () => locks > 0;
 
 function lock() {
   if (locks++ > 0) return;
@@ -97,7 +97,9 @@ function stickyOffset() {
   const root = getComputedStyle(document.documentElement);
   const nav = parseFloat(root.getPropertyValue('--nav-h-solid')) || 72;
   const subnav = document.querySelector<HTMLElement>('.subnav');
-  return nav + (subnav ? subnav.offsetHeight : 0);
+  // The sections menu only adds to the offset where it is sticky (tablet/desktop).
+  const sticky = subnav && getComputedStyle(subnav).position === 'sticky';
+  return nav + (sticky ? subnav.offsetHeight : 0);
 }
 
 /**

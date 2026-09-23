@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { EnquiryPanel } from '@/components/widgets/EnquiryPanel';
 import { Chatbot } from '@/components/widgets/Chatbot';
 import { FloatingActions } from '@/components/widgets/FloatingActions';
@@ -15,9 +15,6 @@ type UIContextValue = {
   enquiry: EnquiryContext | null;
   chatOpen: boolean;
   setChatOpen: (open: boolean) => void;
-  /** Scrolls to the homepage contact form (pre-selecting an interest), or opens the enquiry panel elsewhere. */
-  goToContact: (interest?: string) => void;
-  contactInterest: string | undefined;
 };
 
 const UIContext = createContext<UIContextValue | null>(null);
@@ -30,12 +27,10 @@ export function useUI() {
 
 /** Broadcast before any in-page navigation so open menus, sheets and panels close. */
 export const NAVIGATE_EVENT = 'zm:navigate';
-export const FILTER_EVENT = 'zm:filter';
 
 export function UIProvider({ children }: { children: React.ReactNode }) {
   const [enquiry, setEnquiry] = useState<EnquiryContext | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
-  const [contactInterest, setContactInterest] = useState<string>();
   const pathname = usePathname();
 
   const openEnquiry = useCallback((ctx: EnquiryContext = {}) => {
@@ -44,31 +39,24 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   }, []);
   const closeEnquiry = useCallback(() => setEnquiry(null), []);
 
-  const goToContact = useCallback(
-    (interest?: string) => {
-      if (!document.getElementById('contact')) return openEnquiry({ interest });
-      setContactInterest(interest);
-      window.dispatchEvent(new Event(NAVIGATE_EVENT));
-      setEnquiry(null);
-      setChatOpen(false);
-      whenUnlocked(() => scrollToId('contact'));
-    },
-    [openEnquiry],
-  );
-
+  // Close the enquiry panel on in-page navigation and on route changes.
   useEffect(() => {
     const close = () => setEnquiry(null);
     window.addEventListener(NAVIGATE_EVENT, close);
     return () => window.removeEventListener(NAVIGATE_EVENT, close);
   }, []);
+  useEffect(() => {
+    setEnquiry(null);
+  }, [pathname]);
 
-  useInPageLinks();
+  const router = useRouter();
+  useInPageLinks(router);
   useHashOnArrival(pathname);
   useScrollEffects(pathname);
 
   const value = useMemo(
-    () => ({ openEnquiry, closeEnquiry, enquiry, chatOpen, setChatOpen, goToContact, contactInterest }),
-    [openEnquiry, closeEnquiry, enquiry, chatOpen, goToContact, contactInterest],
+    () => ({ openEnquiry, closeEnquiry, enquiry, chatOpen, setChatOpen }),
+    [openEnquiry, closeEnquiry, enquiry, chatOpen],
   );
 
   return (
@@ -82,11 +70,11 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Every same-page anchor ("/#projects", "#gallery", footer links…) is handled
- * here: menus close first, then the page scrolls with the navbar offset applied.
- * Links to other pages are left to the Next.js router.
+ * Same-page anchors ("#gallery", "/services#service-contracting" while on /services…)
+ * are handled here: menus close first, then the page scrolls with the navbar
+ * offset applied. Links to other pages are left to the Next.js router.
  */
-function useInPageLinks() {
+function useInPageLinks(router: ReturnType<typeof useRouter>) {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -98,22 +86,23 @@ function useInPageLinks() {
       if (!document.getElementById(id)) return;
 
       e.preventDefault();
-      const filter = url.searchParams.get('filter');
-      if (filter) window.dispatchEvent(new CustomEvent(FILTER_EVENT, { detail: filter }));
       window.dispatchEvent(new Event(NAVIGATE_EVENT));
+      // Same page, different query (e.g. /projects?filter=villas#projects): update the URL through the router.
+      if (url.search !== window.location.search) router.push(url.pathname + url.search + url.hash, { scroll: false });
       whenUnlocked(() => {
         scrollToId(id);
         // Keep Next.js' history state so back/forward keep working.
-        window.history.replaceState(window.history.state, '', url.pathname + url.hash);
+        if (url.search === window.location.search)
+          window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
       });
     };
     // Capture phase on window runs before Next <Link> handlers.
     window.addEventListener('click', onClick, true);
     return () => window.removeEventListener('click', onClick, true);
-  }, []);
+  }, [router]);
 }
 
-/** Arriving from another page at "/#projects": correct the landing position for the sticky navbar. */
+/** Arriving from another page at "/about#process": correct the landing position for the sticky navbar. */
 function useHashOnArrival(pathname: string) {
   useEffect(() => {
     const id = decodeURIComponent(window.location.hash.slice(1));

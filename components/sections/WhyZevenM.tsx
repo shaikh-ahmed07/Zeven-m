@@ -15,7 +15,7 @@ export function WhyZevenM() {
           <p className="why__quote reveal" style={{ '--d': '160ms' } as React.CSSProperties}>
             We don’t simply construct buildings. We create spaces with vision, precision and purpose.
           </p>
-          <ArrowLink href="/#process" className="link-arrow--light why__link reveal">
+          <ArrowLink href="/about#process" className="link-arrow--light why__link reveal">
             See How We Work
           </ArrowLink>
         </div>

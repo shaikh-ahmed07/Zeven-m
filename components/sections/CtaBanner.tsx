@@ -27,10 +27,10 @@ export function CtaBanner() {
           Zeven-M Projects &amp; Realty is ready to bring your vision to life.
         </p>
         <div className="cta__actions reveal" style={{ '--d': '200ms' } as React.CSSProperties}>
-          <ButtonLink href="/#contact" variant="gold">
+          <ButtonLink href="/contact" variant="gold">
             Start a Conversation
           </ButtonLink>
-          <ButtonLink href="/#projects" variant="ghost" icon={null}>
+          <ButtonLink href="/projects" variant="ghost" icon={null}>
             Explore Projects
           </ButtonLink>
         </div>

@@ -31,8 +31,7 @@ export function ProjectEnquiry({ project }: { project: Project }) {
           <EnquiryForm
             configurations={project.residences.map((r) => r.type)}
             project={project.name}
-            submitLabel="Request a Callback"
-            compactLabels
+            source="project-page"
           />
         </div>
       </div>

@@ -1,10 +1,12 @@
-import { site, whatsappLink } from '@/lib/data';
-import { ContactForm } from './ContactForm';
+import { Suspense } from 'react';
+import { officeMapLink, site, whatsappLink } from '@/lib/data';
+import { EnquiryForm } from '@/components/forms/EnquiryForm';
 import { Icon } from '@/components/ui/Icon';
+import { ContactForm } from './ContactForm';
 
 export function Contact() {
   const items = [
-    { icon: 'pin' as const, label: 'Office', value: site.office },
+    { icon: 'pin' as const, label: 'Office', value: site.office, href: officeMapLink, external: true },
     { icon: 'phone' as const, label: 'Phone', value: site.phoneDisplay, href: site.phoneHref },
     { icon: 'mail' as const, label: 'Email', value: site.email, href: `mailto:${site.email}` },
     { icon: 'whatsapp' as const, label: 'WhatsApp', value: 'Chat with our team', href: whatsappLink(), external: true },
@@ -28,21 +30,19 @@ export function Contact() {
                 </span>
                 <div>
                   <span className="contact__label">{it.label}</span>
-                  {it.href ? (
-                    <a href={it.href} {...(it.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-                      {it.value}
-                    </a>
-                  ) : (
-                    <span>{it.value}</span>
-                  )}
+                  <a href={it.href} {...(it.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                    {it.value}
+                  </a>
                 </div>
               </li>
             ))}
           </ul>
         </div>
         <div className="contact__form reveal" style={{ '--d': '120ms' } as React.CSSProperties}>
-          <h3 className="contact__form-title">Request a Callback</h3>
-          <ContactForm />
+          <h3 className="contact__form-title">Send an Enquiry</h3>
+          <Suspense fallback={<EnquiryForm source="contact-page" requireMessage submitLabel="Send Enquiry" />}>
+            <ContactForm />
+          </Suspense>
         </div>
       </div>
     </section>
