@@ -1042,6 +1042,11 @@ html.js:not(.intro-seen) .intro {
     transform: translateY(24px);
   }
 }
+.phero .hero__actions > *,
+.page-hero .hero__actions > * {
+  animation-duration: 0.5s;
+  animation-delay: calc(var(--intro) + 0.15s);
+}
 .hero__sub {
   margin-top: 28px;
   font-family: var(--serif);
@@ -2957,7 +2962,7 @@ html:not(.js) .timeline__step > * {
   position: relative;
   padding-top: calc(var(--nav-h) + 40px);
   padding-bottom: clamp(64px, 10vh, 120px);
-  animation: fade-up 1.2s var(--ease) calc(var(--intro) + 0.3s) both;
+  animation: fade-up 0.55s var(--ease) calc(var(--intro) + 0.05s) both;
 }
 .breadcrumb {
   display: flex;
@@ -3689,7 +3694,7 @@ html:not(.js) .timeline__step > * {
 
 /* ---------- Page transition & inner-page banner ---------------------- */
 .page-transition {
-  animation: page-in 0.7s var(--ease) both;
+  animation: page-in 0.25s ease-out both;
 }
 /* Opacity only: moving the page would throw off anchor landing positions. */
 @keyframes page-in {
@@ -3720,8 +3725,10 @@ html:not(.js) .timeline__step > * {
   padding-top: calc(var(--nav-h) + 40px);
   padding-bottom: clamp(56px, 10vh, 112px);
 }
-.page-hero__content .breadcrumb {
-  animation: fade-up 1s var(--ease) calc(var(--intro) + 0.2s) both;
+/* Inner pages: quick, readable almost immediately (the homepage keeps the long cinematic entrance). */
+.page-hero__content .breadcrumb,
+.page-hero .hero__eyebrow {
+  animation: fade-up 0.5s var(--ease) var(--intro) both;
 }
 .page-hero__title {
   max-width: 14em;
@@ -3730,7 +3737,7 @@ html:not(.js) .timeline__step > * {
   font-size: clamp(3rem, 7.6vw, 7.2rem);
   line-height: 0.95;
   letter-spacing: -0.02em;
-  animation: fade-up 1.2s var(--ease) calc(var(--intro) + 0.45s) both;
+  animation: fade-up 0.55s var(--ease) calc(var(--intro) + 0.05s) both;
 }
 .page-hero__title em {
   font-style: italic;
@@ -3742,7 +3749,7 @@ html:not(.js) .timeline__step > * {
   margin-top: 22px;
   font-size: clamp(1rem, 1.3vw, 1.12rem);
   color: rgba(245, 241, 232, 0.82);
-  animation: fade-up 1s var(--ease) calc(var(--intro) + 0.7s) both;
+  animation: fade-up 0.55s var(--ease) calc(var(--intro) + 0.12s) both;
 }
 
 /* ---------- Services page -------------------------------------------- */
