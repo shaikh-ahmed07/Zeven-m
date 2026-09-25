@@ -90,7 +90,9 @@ export function Projects({ variant = 'full', limit = 4 }: Props) {
             <ProjectCard key={p.slug} project={p} index={i} />
           ))}
         </div>
-        <p className="placeholder-note">All projects shown are demo placeholders for this template.</p>
+        {list.some((p) => p.placeholder !== false) && (
+          <p className="placeholder-note">Projects without real imagery are demo placeholders for this template.</p>
+        )}
       </div>
     </section>
   );

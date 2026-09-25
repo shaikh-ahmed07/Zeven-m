@@ -18,7 +18,7 @@ export const site = {
   name: 'Zeven-M Projects & Realty',
   tagline: 'From Vision to Creation — Excellence in Design, Development & Construction',
   supporting: 'Design. Develop. Construct.',
-  office: 'Hyderabad, Telangana, India',
+  office: 'Aaraa House, Om Nagar Colony, Hyderabad, India 500008',
   phoneDisplay: '+91 85001 03000',
   phoneHref: 'tel:+918500103000',
   email: 'zevenmgroup@gmail.com',
@@ -29,7 +29,7 @@ export const site = {
 export const whatsappLink = (text: string = site.whatsappText) =>
   `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
 
-/** Office location on Google Maps (replace the query with the exact office address). */
+/** Office location on Google Maps. */
 export const officeMapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.office)}`;
 
 export const navLinks = [
@@ -96,6 +96,31 @@ export const services: Service[] = [
   { slug: 'real-estate', image: photo('1600210492486-724fe5c67fb0'), no: '04', icon: 'realestate', title: 'Real Estate', interest: 'Buying a Home',
     text: 'Premium residential and commercial spaces designed to deliver long-term value and a superior ownership experience.',
     scope: ['Premium apartments & villas', 'Commercial & retail spaces', 'Guided site visits', 'Documentation & home-loan assistance', 'After-sales support'] },
+];
+
+/** Leadership shown on /about. Add `photo: '/images/team/<file>.jpg'` (portrait, 4:5) to replace the initials. */
+export type Leader = {
+  name: string;
+  role: string;
+  credential?: string;
+  phoneDisplay: string;
+  phoneHref: string;
+  photo?: string;
+};
+export const leadership: Leader[] = [
+  {
+    name: 'Shaikh Jameel Ahmed',
+    role: 'CEO & Managing Director',
+    phoneDisplay: '+91 85000 00815',
+    phoneHref: 'tel:+918500000815',
+  },
+  {
+    name: 'Muhammad M. Abdullah',
+    role: 'Partner & Executive Director',
+    credential: 'MS Structures (UK)',
+    phoneDisplay: '+91 85001 03000',
+    phoneHref: 'tel:+918500103000',
+  },
 ];
 
 export const principles = [
@@ -295,6 +320,115 @@ export const projects: Project[] = [
     ],
     disclaimer:
       'GHMC approved · OC post completion. This presentation is conceptual in nature and not by any means a legal offering. The promoters reserve the right to change, delete or add any specifications or plans mentioned herein.',
+  },
+  {
+    slug: 'tranquila',
+    name: 'Tranquila',
+    type: 'residential',
+    status: 'Completed',
+    placeholder: false,
+    category: 'A Place of Elegant Living',
+    config: '3 BHK · 1,750 sq. ft.',
+    location: 'Bandlaguda Jagir, Hyderabad',
+    summary:
+      'A collection of meticulously designed, spacious and light-filled residences — designed for a luxurious way to live.',
+    image: '/images/projects/tranquila/tranquila-exterior.jpg',
+    heroImage: '/images/projects/tranquila/tranquila-exterior.jpg',
+    specs: [
+      ['Address', 'P&T Colony, Bandlaguda Jagir'], ['Floors', '5'], ['Apartments', '20'],
+      ['Configuration', '3 BHK'], ['Super Built-up', '1,750 sq. ft.'], ['Car Park', '1 per flat'],
+    ],
+    overview: [
+      'Tranquila offers a life of blissful leisure and comfort — a collection of meticulously designed, spacious and light-filled residences, designed for a luxurious way to live. You will appreciate the quality and care in every little detail, the hallmark of our company in reimagining urban life.',
+      'The residences elevate living to a luxuriant art form, where the delight is in the detail and the pleasure all yours. Tranquila draws on natural materials and tones to offer a fresh and classic aesthetic — from spacious lifts with gallery-style lobbies to sophisticated, light-filled private balconies.',
+    ],
+    overviewImage: '/images/projects/tranquila/tranquila-exterior-side.jpg',
+    residences: [{ type: '3 BHK', area: '1,750 sq. ft. super built-up · 3 baths', price: 'Price on request' }],
+    floorPlan: { src: '/images/projects/tranquila/tranquila-floor-plan.jpg', width: 1981, height: 1479 },
+    amenities: [],
+    gallery: [
+      ['/images/projects/tranquila/tranquila-exterior.jpg', 'Exterior'],
+      ['/images/projects/tranquila/tranquila-exterior-side.jpg', 'Front Elevation'],
+      ['/images/projects/tranquila/tranquila-floor-plan.jpg', '3 BHK Floor Plan'],
+    ],
+    brochure: { href: '/brochures/tranquila-brochure.pdf', label: 'Download Brochure', size: 'PDF · 1.8 MB' },
+    developer: 'Developed by Ace Revelateurs Builders & Developers',
+    locationText:
+      'Plot no. 349, 350, 352 & 353, Survey no. 96/2 & 96/3, P&T Colony, Bandlaguda Jagir, Ranga Reddy District. Located in the vicinity of Madhapur, Gachibowli and Narsingi, with connectivity to all major industrial hubs and the airport expressway.',
+    mapQuery: 'P&T Colony, Bandlaguda Jagir, Hyderabad',
+    nearby: [],
+    specifications: [
+      { group: 'Structure', items: [
+        ['Structure', 'Reinforced cement concrete structure with earthquake resistance zone 2.'],
+        ['Walls', 'Lightweight red brick masonry with putty finish, painted with acrylic emulsion of Asian / ICI or equivalent brand.'],
+      ] },
+      { group: 'Flooring', items: [
+        ['Living & Bedrooms', 'Vitrified tile flooring.'],
+        ['Balcony, Kitchen & Utility', 'Anti-skid ceramic tile flooring.'],
+        ['Toilets', 'Ceramic tiles for dadoing and anti-skid tiles for the floor.'],
+        ['Common Areas', 'Granite flooring, with cladding on lift walls.'],
+      ] },
+      { group: 'Finishes', items: [
+        ['False Ceiling', 'Gypsum ceiling in all flat areas; grid ceiling in all toilets.'],
+        ['Main Door', 'Melamine-polished teak wood door.'],
+        ['Internal Doors', 'Laminated flush wood doors.'],
+        ['Windows & Balconies', 'Sliding UPVC windows with mosquito mesh for all rooms; sliding UPVC doors for all balconies with provision for mosquito mesh.'],
+      ] },
+      { group: 'Sanitary & Plumbing', items: [
+        ['Sanitary Ware', 'Cera brand.'],
+        ['CP Fixtures', 'Jaquar brand.'],
+      ] },
+    ],
+    disclaimer:
+      'The brochure is purely conceptual and not a legal document. Ace Revelateurs reserves the right to change or modify any terms and conditions, amenities and facilities, plans and specifications mentioned herein.',
+  },
+  {
+    slug: 'ahmed-mansion',
+    name: 'Ahmed Mansion',
+    type: 'villas',
+    status: 'Completed',
+    placeholder: false,
+    category: 'Luxury Private Mansion',
+    config: '1,800 sq. yd. · ~12,000 sq. ft. built-up',
+    location: 'Hyderabad, Telangana',
+    summary:
+      'A private mansion on 1,800 sq. yd. with about 12,000 sq. ft. built — delivered on an EPC basis.',
+    image: '/images/projects/ahmed-mansion/ahmed-mansion-exterior.jpg',
+    heroImage: '/images/projects/ahmed-mansion/ahmed-mansion-exterior.jpg',
+    specs: [
+      ['Plot Area', '1,800 sq. yd.'], ['Built-up Area', '~12,000 sq. ft.'],
+      ['Contract', 'EPC Construction'], ['Status', 'Completed'],
+    ],
+    overview: [
+      'Ahmed Mansion is a private residence on a 1,800 sq. yd. plot, with a built-up area of about 12,000 sq. ft.',
+      'The project was executed on an engineering, procurement and construction (EPC) basis — design, sourcing and construction delivered end to end by a single team.',
+    ],
+    overviewImage: '/images/projects/ahmed-mansion/ahmed-mansion-exterior.jpg',
+    residences: [],
+    amenities: [],
+    gallery: [['/images/projects/ahmed-mansion/ahmed-mansion-exterior.jpg', 'Exterior & Lawn']],
+    developer: 'EPC construction by Revelateurs Builders & Developers with Zeven-M Projects & Realty',
+  },
+  {
+    slug: 'jana-chaitanya',
+    name: 'Jana Chaitanya',
+    type: 'villas',
+    status: 'Completed',
+    placeholder: false,
+    category: 'Independent Luxury Villa',
+    config: '200 sq. yd. plot',
+    location: 'Hyderabad, Telangana',
+    summary: 'An independent luxury villa on a 200 sq. yd. plot.',
+    image: '/images/projects/jana-chaitanya/jana-chaitanya-elevation.jpg',
+    heroImage: '/images/projects/jana-chaitanya/jana-chaitanya-elevation.jpg',
+    specs: [['Plot Area', '200 sq. yd.'], ['Type', 'Independent Villa'], ['Status', 'Completed']],
+    overview: [
+      'Jana Chaitanya is an independent luxury villa on a 200 sq. yd. plot.',
+    ],
+    overviewImage: '/images/projects/jana-chaitanya/jana-chaitanya-elevation.jpg',
+    residences: [],
+    amenities: [],
+    gallery: [['/images/projects/jana-chaitanya/jana-chaitanya-elevation.jpg', 'Front Elevation']],
   },
   {
     slug: 'zeven-m-residences',
@@ -511,6 +645,16 @@ export const projects: Project[] = [
 export const featured = projects.find((p) => p.slug === 'zeven-m-ace-apartments')!;
 
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
+
+/** Project-page sections that have nothing real to show are left out (and dropped from the sub-nav). */
+export const hiddenSections = (p: Project) => [
+  ...(p.residences.length ? [] : ['residences']),
+  ...(p.amenities.length ? [] : ['amenities']),
+  // A single photo is already shown in the hero and overview.
+  ...(p.gallery.length > 1 ? [] : ['gallery']),
+  ...(p.specifications ? [] : ['specifications']),
+  ...(p.placeholder !== false || p.mapQuery || p.locationText ? [] : ['location']),
+];
 
 /** Alt text that flags stock photography on demo projects only. */
 export const projectAlt = (p: Project, label: string) =>

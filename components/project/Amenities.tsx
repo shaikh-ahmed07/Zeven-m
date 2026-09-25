@@ -2,6 +2,7 @@ import { amenityCatalogue, type Project } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 
 export function Amenities({ project }: { project: Project }) {
+  if (!project.amenities.length) return null;
   return (
     <section id="amenities" className="amenities section" aria-labelledby="amenities-title">
       <div className="container">

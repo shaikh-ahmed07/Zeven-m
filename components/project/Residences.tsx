@@ -12,6 +12,7 @@ import { FloorPlan } from './FloorPlan';
 export function Residences({ project }: { project: Project }) {
   const [plan, setPlan] = useState<string | null>(null);
   const { openEnquiry } = useUI();
+  if (!project.residences.length) return null;
 
   return (
     <section id="residences" className="residences section" aria-labelledby="residences-title">

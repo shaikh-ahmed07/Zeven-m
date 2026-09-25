@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { images } from '@/lib/data';
 import { PageHero } from '@/components/layout/PageHero';
 import { About } from '@/components/sections/About';
+import { Leadership } from '@/components/sections/Leadership';
 import { Process } from '@/components/sections/Process';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 
@@ -26,6 +27,7 @@ export default function AboutPage() {
         image={images.pageAbout}
         alt="Contemporary residence with timber cladding (placeholder image)"
       />
+      <Leadership />
       <About full />
       <Process />
       <CtaBanner />

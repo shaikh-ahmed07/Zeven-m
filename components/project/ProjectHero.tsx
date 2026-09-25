@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { projectAlt, typeLabels, type Project } from '@/lib/data';
+import { hiddenSections, projectAlt, typeLabels, type Project } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 import { EnquireButton } from '@/components/ui/EnquireButton';
 import { DownloadButton } from '@/components/ui/Button';
@@ -63,7 +63,7 @@ export function ProjectHero({ project }: { project: Project }) {
         </dl>
       </div>
 
-      <SubNav name={project.name} hasSpecs={!!project.specifications} />
+      <SubNav name={project.name} hidden={hiddenSections(project)} />
     </>
   );
 }

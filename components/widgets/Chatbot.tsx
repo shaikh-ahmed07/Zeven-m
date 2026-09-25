@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useUI } from '@/components/providers/UIProvider';
 import { Icon } from '@/components/ui/Icon';
 import { Logo } from '@/components/layout/Logo';
-import { whatsappLink } from '@/lib/data';
+import { site, whatsappLink } from '@/lib/data';
 import { scrollToId, useScrollLock, whenUnlocked } from '@/lib/scroll';
 import { enquirySummary, submitEnquiry } from '@/lib/enquiry';
 
@@ -105,7 +105,7 @@ function respond(input: string): { text: string; actions?: Action[]; capture?: C
       ],
     };
   if (has('where', 'location', 'address', 'office', 'hyderabad'))
-    return { text: 'Our office is in Hyderabad, Telangana, India. Our showcased developments are located across the Hyderabad region.' };
+    return { text: `Our office is at ${site.office}. Our showcased developments are located across the Hyderabad region.` };
   if (/\b(hi|hello|hey|namaste)\b/.test(q))
     return { text: 'Hello! Are you looking for a new home, a villa, a commercial space or construction services?', actions: QUICK_ACTIONS.slice(0, 4) };
   if (has('thank'))

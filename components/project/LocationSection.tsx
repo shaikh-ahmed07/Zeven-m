@@ -1,4 +1,4 @@
-import { nearbyDefault, type Project } from '@/lib/data';
+import { hiddenSections, nearbyDefault, type Project } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 
 function MapPlaceholder({ name }: { name: string }) {
@@ -21,6 +21,7 @@ function MapPlaceholder({ name }: { name: string }) {
 }
 
 export function LocationSection({ project }: { project: Project }) {
+  if (hiddenSections(project).includes('location')) return null;
   const query = project.mapQuery ?? 'Hyderabad, Telangana';
   const nearby = project.nearby ?? nearbyDefault;
   return (
@@ -61,15 +62,17 @@ export function LocationSection({ project }: { project: Project }) {
               {project.locationText}
             </p>
           )}
-          <ul className="nearby">
-            {nearby.map((n, i) => (
-              <li key={n.place} className="reveal" style={{ '--d': `${160 + i * 50}ms` } as React.CSSProperties}>
-                <span>{n.place}</span>
-                <span className="nearby__line" aria-hidden="true" />
-                <span className="nearby__time">{n.time}</span>
-              </li>
-            ))}
-          </ul>
+          {nearby.length > 0 && (
+            <ul className="nearby">
+              {nearby.map((n, i) => (
+                <li key={n.place} className="reveal" style={{ '--d': `${160 + i * 50}ms` } as React.CSSProperties}>
+                  <span>{n.place}</span>
+                  <span className="nearby__line" aria-hidden="true" />
+                  <span className="nearby__time">{n.time}</span>
+                </li>
+              ))}
+            </ul>
+          )}
           {project.nearbyNote && <p className="location__note reveal">{project.nearbyNote}</p>}
           {project.placeholder !== false && <p className="placeholder-note">Map and travel times are placeholders.</p>}
         </div>

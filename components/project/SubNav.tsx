@@ -14,8 +14,8 @@ const allSections = [
 ] as const;
 
 /** Sticky in-page navigation for project details, with the current section highlighted. */
-export function SubNav({ name, hasSpecs = false }: { name: string; hasSpecs?: boolean }) {
-  const sections = allSections.filter(([, id]) => id !== 'specifications' || hasSpecs);
+export function SubNav({ name, hidden = [] }: { name: string; hidden?: string[] }) {
+  const sections = allSections.filter(([, id]) => !hidden.includes(id));
   const [active, setActive] = useState<string>('');
   const listRef = useRef<HTMLUListElement>(null);
 

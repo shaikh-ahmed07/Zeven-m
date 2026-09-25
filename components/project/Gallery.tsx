@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { projectAlt, type Project } from '@/lib/data';
+import { hiddenSections, projectAlt, type Project } from '@/lib/data';
 import { Icon } from '@/components/ui/Icon';
 import { Modal } from '@/components/ui/Modal';
 
@@ -22,6 +22,8 @@ export function Gallery({ project }: { project: Project }) {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [active, step]);
+
+  if (hiddenSections(project).includes('gallery')) return null;
 
   return (
     <section id="gallery" className="gallery section" aria-labelledby="gallery-title">
