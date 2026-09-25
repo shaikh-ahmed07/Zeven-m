@@ -3853,6 +3853,10 @@ html:not(.js) .timeline__step > * {
   font-size: clamp(1rem, 1.3vw, 1.12rem);
   color: rgba(245, 241, 232, 0.82);
 }
+/* First section after an inner-page banner: tighter top spacing. */
+.page-hero + .section {
+  padding-top: clamp(32px, 4vw, 56px);
+}
 
 /* ---------- Services page -------------------------------------------- */
 .services__foot {
