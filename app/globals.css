@@ -164,6 +164,14 @@ article[id] {
 .section {
   padding-block: var(--section);
 }
+/* Consecutive sections on the same background would stack two full paddings
+   (e.g. a project with no residences/amenities/gallery), so drop the second one's top padding. */
+:is(.poverview, .gallery, .penquiry, .story, .pillars, .process, .services, .featured, .testimonials, .contact, .service-details)
+  + :is(.poverview, .gallery, .penquiry, .story, .pillars, .process, .services, .featured, .testimonials, .contact, .service-details),
+:is(.residences, .specifications, .location, .projects, .about)
+  + :is(.residences, .specifications, .location, .projects, .about) {
+  padding-top: 0;
+}
 
 /* ---------- Typography ------------------------------------------------- */
 .eyebrow {

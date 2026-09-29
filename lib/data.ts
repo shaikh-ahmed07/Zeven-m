@@ -272,7 +272,7 @@ export const projects: Project[] = [
       ['/images/projects/ace/ace-typical-floor-plan.jpg', 'Typical Floor Plan'],
     ],
     brochure: { href: '/brochures/zeven-m-ace-apartments-brochure.pdf', label: 'Download Brochure', size: 'PDF · 8.6 MB' },
-    developer: 'Developed by Revelateurs Builders & Developers with Zeven-M Projects & Realty',
+    developer: 'Developed by Zeven-M Projects & Realty',
     locationText:
       'Located in Sun City’s elite enclave, with prime Outer Ring Road connectivity to Gachibowli, the Financial District, Narsingi and Rajendra Nagar — plus easy access to Rajiv Gandhi International Airport. Surrounded by retail, cafés and top schools.',
     mapQuery: 'Sun City, Bandlaguda Jagir, Hyderabad',
@@ -354,7 +354,6 @@ export const projects: Project[] = [
       ['/images/projects/tranquila/tranquila-floor-plan.jpg', '3 BHK Floor Plan'],
     ],
     brochure: { href: '/brochures/tranquila-brochure.pdf', label: 'Download Brochure', size: 'PDF · 1.8 MB' },
-    developer: 'Developed by Ace Revelateurs Builders & Developers',
     locationText:
       'Plot no. 349, 350, 352 & 353, Survey no. 96/2 & 96/3, P&T Colony, Bandlaguda Jagir, Ranga Reddy District. Located in the vicinity of Madhapur, Gachibowli and Narsingi, with connectivity to all major industrial hubs and the airport expressway.',
     mapQuery: 'P&T Colony, Bandlaguda Jagir, Hyderabad',
@@ -382,7 +381,7 @@ export const projects: Project[] = [
       ] },
     ],
     disclaimer:
-      'The brochure is purely conceptual and not a legal document. Ace Revelateurs reserves the right to change or modify any terms and conditions, amenities and facilities, plans and specifications mentioned herein.',
+      'The brochure is purely conceptual and not a legal document. The developer reserves the right to change or modify any terms and conditions, amenities and facilities, plans and specifications mentioned herein.',
   },
   {
     slug: 'ahmed-mansion',
@@ -409,7 +408,7 @@ export const projects: Project[] = [
     residences: [],
     amenities: [],
     gallery: [['/images/projects/ahmed-mansion/ahmed-mansion-exterior.jpg', 'Exterior & Lawn']],
-    developer: 'EPC construction by Revelateurs Builders & Developers with Zeven-M Projects & Realty',
+    developer: 'EPC construction by Zeven-M Projects & Realty',
   },
   {
     slug: 'jana-chaitanya',
