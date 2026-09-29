@@ -98,7 +98,7 @@ export const services: Service[] = [
     scope: ['Premium apartments & villas', 'Commercial & retail spaces', 'Guided site visits', 'Documentation & home-loan assistance', 'After-sales support'] },
 ];
 
-/** Leadership shown on /about. Add `photo: '/images/team/<file>.jpg'` (portrait, 4:5) to replace the initials. */
+/** Leadership shown on /about. Add `photo: '/images/team/<file>.jpg'` (shown in a circle; keep the face in the upper-middle) to replace the initials. */
 export type Leader = {
   name: string;
   role: string;
@@ -113,6 +113,7 @@ export const leadership: Leader[] = [
     role: 'CEO & Managing Director',
     phoneDisplay: '+91 85000 00815',
     phoneHref: 'tel:+918500000815',
+    photo: '/images/team/shaikh-jameel-ahmed.jpg',
   },
   {
     name: 'Muhammad M. Abdullah',
@@ -120,6 +121,7 @@ export const leadership: Leader[] = [
     credential: 'MS Structures (UK)',
     phoneDisplay: '+91 85001 03000',
     phoneHref: 'tel:+918500103000',
+    photo: '/images/team/muhammad-m-abdullah.jpg',
   },
 ];
 

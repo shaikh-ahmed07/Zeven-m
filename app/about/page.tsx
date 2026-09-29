@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
-import { images } from '@/lib/data';
-import { PageHero } from '@/components/layout/PageHero';
-import { About } from '@/components/sections/About';
+import { AboutHero } from '@/components/about/AboutHero';
 import { Leadership } from '@/components/sections/Leadership';
+import { Marquee } from '@/components/about/Marquee';
+import { AboutStory } from '@/components/about/AboutStory';
+import { Stats } from '@/components/sections/Stats';
+import { Pillars } from '@/components/about/Pillars';
 import { Process } from '@/components/sections/Process';
 import { CtaBanner } from '@/components/sections/CtaBanner';
 
@@ -15,20 +17,12 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <PageHero
-        crumb="About"
-        eyebrow="About Zeven-M"
-        title={
-          <>
-            Building Spaces. <em>Creating Possibilities.</em>
-          </>
-        }
-        lead="Design. Develop. Construct. — end-to-end excellence from the first sketch to the final handover."
-        image={images.pageAbout}
-        alt="Contemporary residence with timber cladding (placeholder image)"
-      />
+      <AboutHero />
       <Leadership />
-      <About full />
+      <Marquee />
+      <AboutStory />
+      <Stats />
+      <Pillars />
       <Process />
       <CtaBanner />
     </>

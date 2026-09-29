@@ -14,9 +14,10 @@ export function Leadership() {
       <div className="container">
         <SectionHeading
           eyebrow="Leadership"
+          align="center"
           title={
             <span id="leadership-title">
-              The People Behind <em>Zeven-M Projects &amp; Realty</em>
+              The People Behind <em><span className="nowrap">Zeven-M</span> Projects &amp; Realty</em>
             </span>
           }
           className="leadership__head"
@@ -24,19 +25,22 @@ export function Leadership() {
         />
         <ul className="leadership__grid">
           {leadership.map((l, i) => (
-            <li key={l.name} className="leader reveal" style={{ '--d': `${i * 120}ms` } as React.CSSProperties}>
-              <div className="leader__photo">
-                {l.photo ? (
-                  <Image src={l.photo} alt={`${l.name}, ${l.role}`} fill sizes="(max-width: 760px) 100vw, 40vw" />
-                ) : (
-                  <span className="leader__initials" aria-hidden="true">
-                    {initials(l.name)}
-                  </span>
-                )}
+            <li key={l.name} className="leader reveal" style={{ '--d': `${i * 160}ms` } as React.CSSProperties}>
+              <div className="leader__frame">
+                <span className="leader__ring" aria-hidden="true" />
+                <div className="leader__photo">
+                  {l.photo ? (
+                    <Image src={l.photo} alt={`${l.name}, ${l.role}`} fill sizes="(max-width: 760px) 240px, 280px" />
+                  ) : (
+                    <span className="leader__initials" aria-hidden="true">
+                      {initials(l.name)}
+                    </span>
+                  )}
+                </div>
               </div>
               <div className="leader__body">
-                <h3 className="leader__name">{l.name}</h3>
                 <p className="leader__role">{l.role}</p>
+                <h3 className="leader__name">{l.name}</h3>
                 {l.credential && <p className="leader__credential">{l.credential}</p>}
                 <a className="leader__phone" href={l.phoneHref}>
                   <Icon name="phone" /> {l.phoneDisplay}
